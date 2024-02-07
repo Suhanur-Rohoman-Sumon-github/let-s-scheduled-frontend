@@ -36,7 +36,7 @@ const ChatModal = ({ isOpen, setIsOpen, children }) => {
             leaveTo="translate-y-full"
           >
             <div className="fixed inset-y-0 right-0 max-w-md w-full flex justify-end mr-8 my-4 ">
-              <div className="bg-white w-full max-w-md p-6 rounded-2xl">
+              <div className="bg-white border border-[#0069ff] w-full max-w-md  rounded-2xl">
                 <div className="flex justify-end">
                   <button
                     className="p-2 text-gray-500 hover:text-gray-700"
@@ -60,7 +60,7 @@ const ChatModal = ({ isOpen, setIsOpen, children }) => {
                   </button>
                 </div>
 
-                <div className="mt-2 ">{children}</div>
+                <div className=" ">{children}</div>
               </div>
             </div>
           </Transition.Child>

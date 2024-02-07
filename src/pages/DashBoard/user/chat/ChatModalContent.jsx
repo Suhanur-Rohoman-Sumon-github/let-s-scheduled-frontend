@@ -2,65 +2,71 @@ import ChatModal from "../../../../componnents/modal/chat/modal";
 import { FaRocketchat } from "react-icons/fa";
 import logo from "../../../../assets/logo.png";
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
+import { v4 as uuidv4 } from "uuid";
 import useSingleMessage from "../../../../hooks/useSingleMessage";
+import axios from "axios";
+import useContexts from "../../../../hooks/useContexts";
 
 const ChatModalContent = ({ isOpen, setIsOpen }) => {
-  //   const socket = io("http://localhost:3000");
-  //   socket.on("connect", () => {
-  //     console.log(socket.id); // ojIckSD2jqNzOqIrAGzL
-  //   });
-  const [message, setMessages] = useState([]);
+  const { user } = useContexts();
   const [inputMessage, setInputMessage] = useState("");
-
+  const messageId = uuidv4();
+  const userName = user?.displayName;
+  const userEmail = user?.email;
+  const photoUrls = user?.photoURL;
+  const sender = "user";
+  const content = inputMessage;
+  const message = {
+    messageId,
+    userName,
+    userEmail,
+    photoUrls,
+    messages: [{ sender, content }],
+  };
+  const newMessages = [{ sender, content }];
   const { messages, refetch } = useSingleMessage();
-  console.log(messages);
-  if (!messages.data) {
-    return <span className="loading loading-dots loading-lg"></span>;
-  }
+  const messageData = messages?.data?.messages;
+  const isUserSaved = messages?.data?.userEmail;
+  const sendMessage = async () => {
+    const post = await axios.post(
+      "http://localhost:3000/api/v1/message/save-message",
+      {
+        messages: message,
+      }
+    );
 
-  const { messages: messageData, photoUrl } = messages.data;
-
-  // Combine and sort messages based on their order or timestamps
-  //   const combinedMessages = messageData?.sort((a, b) => {
-  //     return new Date(a.timestamp) - new Date(b.timestamp);
-  //   });
-
-  //   useEffect(() => {
-  //     // Set up listener for incoming messages
-  //     socket.on("chat message", (msgData) => {
-  //       setMessages((prevMessages) => [...prevMessages, msgData]);
-  //     });
-
-  //     // Clean up on unmount
-  //     return () => {
-  //       socket.disconnect();
-  //     };
-  //   }, []);
-  const sendMessage = () => {
-    setMessages(inputMessage);
+    if (isUserSaved) {
+      const patch = await axios.patch(
+        `http://localhost:3000/api/v1/message/update-message?emails=${user?.email}`,
+        {
+          newMessage: newMessages,
+        }
+      );
+    }
+    refetch();
+    setInputMessage("");
   };
   return (
-    <div className=" relative w-[10px] ">
+    <div className=" relative  ">
       <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className=" max-h-[550px] overflow-y-auto">
           {messageData?.map((message, index) => (
             <div
               key={index}
-              className={`flex p-2 rounded-lg border ${
-                message.sender === "admin"
-                  ? "justify-start mr-32"
-                  : "justify-end ml-36"
+              className={`flex p-2  ${
+                message.sender === "admin" ? "justify-start " : "justify-end "
               } mb-2 gap-2 pl-4`}
             >
               <img
-                src={photoUrl}
-                className="h-6 w-6 rounded-full mt-1"
+                src={photoUrls}
+                className="h-8 w-8 rounded-full mt-2"
                 alt=""
               />
               <p
-                className={`text-xl  mb-2 max-w-sm ${
-                  message.sender === "admin" ? "text-[#0069ff]" : "text-black"
+                className={`text-xl  max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
+                  message.sender === "admin"
+                    ? "text-[#FFF] bg-[#0069ff] "
+                    : "text-[#FFF] bg-[#0b3558] "
                 }`}
               >
                 {message.content}

@@ -5,11 +5,11 @@ import axios from "axios";
 const useSingleMessage = () => {
   const { user } = useContexts();
 
-  const { data: messages = {}, refetch } = useQuery({
+  const { data: messages = [], refetch } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/message/single-message?emails=john.doe@example.com`
+        `http://localhost:3000/api/v1/message/single-message?emails=${user?.email}`
       );
       return res.data;
     },
