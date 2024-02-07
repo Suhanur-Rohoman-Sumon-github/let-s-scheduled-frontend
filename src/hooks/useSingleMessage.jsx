@@ -2,14 +2,16 @@ import useContexts from "./useContexts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useSingleMessage = () => {
+const useSingleMessage = (email) => {
   const { user } = useContexts();
 
   const { data: messages = [], refetch } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/message/single-message?emails=${user?.email}`
+        `http://localhost:3000/api/v1/message/single-message?emails=${
+          email ? email : user?.email
+        }`
       );
       return res.data;
     },
