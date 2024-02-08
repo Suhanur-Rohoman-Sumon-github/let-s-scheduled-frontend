@@ -5,6 +5,7 @@ import { adminDashBoardNavData, userDashBoardNavData } from "../data/Data";
 import useAdmin from "../hooks/useAdmin";
 import Loading from "../componnents/loading/Loading";
 import { FaChartBar } from "react-icons/fa";
+import Chat from "../pages/DashBoard/user/chat/Chat";
 
 const DashboardLayouts = () => {
   // received isAdmin from src/hooks/useAdmin file
@@ -26,8 +27,9 @@ const DashboardLayouts = () => {
           </div>
         </div>
         {/* <div className="w-full"> */}
-        <div className="px-12 mt-14 w-9/12 mx-auto">
+        <div className="px-12">
           {/* outlet is reeved all the children path have in the /dashboard route  */}
+          {!isAdmin?.isAdmin && <Chat />}
           <Outlet />
         </div>
         {/* </div> */}

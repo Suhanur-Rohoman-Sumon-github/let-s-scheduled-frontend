@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 .heading {
-  @apply font-prompt text-3xl font-semibold mb-8 lg:mb-16 mt-5
+  @apply font-prompt text-3xl font-semibold mb-8 lg:mb-16 mt-5;
 }
 .headBox {
-  @apply w-full flex items-center gap-x-2 bg-gray-50 py-2 px-5 rounded-md font-prompt border border-gray-400 m-1
+  @apply w-full flex items-center gap-x-2 bg-gray-50 py-2 px-5 rounded-md font-prompt border border-gray-400 m-1;
 }
 
 .react-tabs {
@@ -17,6 +17,9 @@
 }
 .btn-card {
   @apply text-[#066DD3] text-xl border border-[#066DD3] text-center my-5 px-3 lg:px-5 py-1 lg:py-3 hover:bg-[#096CD0] hover:text-white font-semibold transition-colors duration-200;
+}
+.btn-chat {
+  @apply text-[#066DD3] rounded-full shadow-2xl shadow-black text-xl border border-[#066DD3] text-center my-3 px-3 lg:px-5 py-1 lg:py-3  font-semibold transition-colors duration-200;
 }
 .btn-contact {
   @apply border ml-4  text-xl border-[#FFF] hover:border-blue-600  font-bold py-4 px-4 rounded-md shadow-lg transition duration-100 ease-in-out;
@@ -45,3 +48,20 @@
 .text-secondary {
   @apply lg:text-xl text-[#477eb8] font-semibold;
 }
+
+
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari, and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    /* Hide scrollbar for IE, Edge, and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+} 

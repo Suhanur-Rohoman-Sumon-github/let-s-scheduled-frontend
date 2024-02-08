@@ -176,7 +176,6 @@ export const cards = [
   },
 ];
 
-
 export const connectings = [
   {
     img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Salesforce.com_logo.svg/1200px-Salesforce.com_logo.svg.png",
@@ -219,7 +218,6 @@ export const connectings = [
     para: "Collect debit or credit card payments on booking",
   },
 ];
-
 
 export const tabTitles = [
   "Sales",
@@ -315,7 +313,7 @@ export const educationTabPanel = [
   },
 ];
 
-export   const swiperContents = [
+export const swiperContents = [
   {
     verified: true,
     heading: "Setmore provides awesome  demo",
