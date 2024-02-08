@@ -9,7 +9,7 @@ const useSingleMessage = (email) => {
     queryKey: ["messages"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/message/single-message?emails=${
+        `https://lets-sheduleit-backend.vercel.app/api/v1/message/single-message?emails=${
           email ? email : user?.email
         }`
       );

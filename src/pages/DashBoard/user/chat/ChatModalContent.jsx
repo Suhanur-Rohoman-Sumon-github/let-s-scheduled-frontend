@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import ChatModal from "../../../../componnents/modal/chat/modal";
 import { FaRocketchat } from "react-icons/fa";
 import logo from "../../../../assets/logo.png";
@@ -29,7 +31,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const isUserSaved = messages?.data?.userEmail;
   const sendMessage = async () => {
     const post = await axios.post(
-      "http://localhost:3000/api/v1/message/save-message",
+      "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
       {
         messages: message,
       }
@@ -37,7 +39,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
 
     if (isUserSaved) {
       const patch = await axios.patch(
-        `http://localhost:3000/api/v1/message/update-message?emails=${user?.email}`,
+        `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${user?.email}`,
         {
           newMessage: newMessages,
         }
@@ -54,7 +56,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
             <div
               key={index}
               className={`flex p-2  ${
-                message.sender === "admin" ? "justify-start " : "justify-end "
+                message.sender === "admin" ? "justify-start " : "justify-end"
               } mb-2 gap-2 pl-4`}
             >
               <img
