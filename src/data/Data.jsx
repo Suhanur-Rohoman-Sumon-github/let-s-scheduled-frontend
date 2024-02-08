@@ -122,6 +122,11 @@ export const adminDashBoardNavData = [
     name: "All events",
     to: "/dashboard/all-events",
   },
+  {
+    icon: <FaRocketchat />,
+    name: "Messages",
+    to: "/dashboard/messages",
+  },
 ];
 
 // handle provide the cards data
