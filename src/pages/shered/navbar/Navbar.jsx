@@ -1,11 +1,13 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "../../../assets/logo.png";
 import useContexts from "../../../hooks/useContexts";
+import useAdmin from "../../../hooks/useAdmin";
 const Navbar = () => {
   const { user, handleLogout } = useContexts();
   const [scrolling, setScrolling] = useState(false);
-
+  const { isAdmin } = useAdmin();
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -216,9 +218,15 @@ const Navbar = () => {
                   My Accounts
                 </Link>
               </li>
-              <li>
-                <a>Settings</a>
-              </li>
+              {isAdmin.isAdmin ? (
+                <li>
+                  <Link to={"support"}>Support</Link>
+                </li>
+              ) : (
+                <li>
+                  <li>Settings</li>
+                </li>
+              )}
               <li>
                 <button onClick={handleLogouts} className="">
                   Logout

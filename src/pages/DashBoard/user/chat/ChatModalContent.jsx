@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import ChatModal from "../../../../componnents/modal/chat/modal";
 import { FaRocketchat } from "react-icons/fa";
 import logo from "../../../../assets/logo.png";

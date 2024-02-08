@@ -27,7 +27,7 @@ const DashboardLayouts = () => {
           </div>
         </div>
         {/* <div className="w-full"> */}
-        <div className="px-12   ">
+        <div className="px-12">
           {/* outlet is reeved all the children path have in the /dashboard route  */}
           {!isAdmin?.isAdmin && <Chat />}
           <Outlet />

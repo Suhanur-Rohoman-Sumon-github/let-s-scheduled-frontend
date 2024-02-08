@@ -33,6 +33,8 @@ import Routing from "../pages/DashBoard/user/Routing/Routing";
 import Availability from "../pages/DashBoard/user/Availability/Availability";
 import IntegrationsAndApps from "../pages/DashBoard/user/IntegrationsAndApps/IntegrationsAndApps";
 import Message from "../pages/DashBoard/admin/messages.jsx/Message";
+import SupportLayout from "../layouts/SupportLayout";
+import Support from "../pages/Support/Admin/Support";
 
 const router = createBrowserRouter([
   {
@@ -167,6 +169,20 @@ const router = createBrowserRouter([
         path: "/dashboard/messages",
         element: <Message />,
       },
+    ],
+  },
+  {
+    path: "/support",
+    element: (
+      <PrivateRoute>
+        <SupportLayout></SupportLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/support",
+        element: <Support></Support>,
+      }
     ],
   },
   {
