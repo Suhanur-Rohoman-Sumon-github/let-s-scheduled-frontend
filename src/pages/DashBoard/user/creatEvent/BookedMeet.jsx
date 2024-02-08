@@ -54,7 +54,7 @@ const BookedMeet = () => {
 
   // it will handle the redirect when user click vew details button
   const handleRedirect = (id) => {
-    const curentUrl = `http://localhost:5173/confirm-schedule/${id}`;
+    const curentUrl = `https://let-s-scheduled-frontend.vercel.app/confirm-schedule/${id}`;
 
     window.open(curentUrl, "_blank");
   };

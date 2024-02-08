@@ -32,6 +32,7 @@ import Workflows from "../pages/DashBoard/user/Workflows/Workflows";
 import Routing from "../pages/DashBoard/user/Routing/Routing";
 import Availability from "../pages/DashBoard/user/Availability/Availability";
 import IntegrationsAndApps from "../pages/DashBoard/user/IntegrationsAndApps/IntegrationsAndApps";
+import Message from "../pages/DashBoard/admin/messages.jsx/Message";
 
 const router = createBrowserRouter([
   {
@@ -161,6 +162,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/integrations",
         element: <IntegrationsAndApps></IntegrationsAndApps>,
+      },
+      {
+        path: "/dashboard/messages",
+        element: <Message />,
       },
     ],
   },

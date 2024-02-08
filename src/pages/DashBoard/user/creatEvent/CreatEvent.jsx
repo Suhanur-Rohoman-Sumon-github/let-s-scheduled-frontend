@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import useIsBan from "../../../../hooks/useIsBan";
 import useContexts from "../../../../hooks/useContexts";
 import AddEventModal from "../../../../componnents/modal/AddEventModal";
+import Chat from "../chat/Chat";
 
 const CreateEvent = () => {
   const { user } = useContexts();
@@ -118,6 +119,9 @@ const CreateEvent = () => {
       <BookedMeet></BookedMeet>
 
       <AddEventModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="absolute  -bottom-12 md:bottom-4 right-4 md:right-24">
+        <Chat />
+      </div>
     </div>
   );
 };
