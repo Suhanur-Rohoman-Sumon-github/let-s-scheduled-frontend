@@ -86,10 +86,7 @@ const SingIn = () => {
             </p>
           </div>
         </div>
-        <div
-          data-aos="fade-right"
-          className=" flex-shrink-0 w-full max-w-md p-4 bg-[#ffffff] shadow-2xl  border"
-        >
+        <div className=" flex-shrink-0 w-full max-w-md p-4 bg-[#ffffff] shadow-2xl  border">
           <button
             // this function for google login. if you want to login with google. you can do that
             onClick={handleGoogleLogin}

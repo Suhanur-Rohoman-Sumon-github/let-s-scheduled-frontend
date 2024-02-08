@@ -3,11 +3,12 @@ import { FaRocketchat } from "react-icons/fa";
 import ChatModalContent from "./ChatModalContent";
 const Chat = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div>
-      <div className="fixed   md:bottom-0 md:right-16">
+      <div className="fixed   md:bottom-0 md:right-16 z-20">
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           className="btn-chat flex items-center gap-1"
         >
           <FaRocketchat /> chat with us
@@ -18,7 +19,7 @@ const Chat = () => {
       </div>
       <div className="fixed bottom-8 right-8  md:hidden ">
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           className="btn-chat flex items-center "
         >
           <FaRocketchat />

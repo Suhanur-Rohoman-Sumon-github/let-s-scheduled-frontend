@@ -49,7 +49,7 @@ const SupportLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu min-h-full bg-base-200 text-base-content">
+        <div className="menu min-h-full px-5 bg-base-200 text-base-content">
           <div className="flex justify-between items-center mb-5">
             <h1 className="text-center font-cursive uppercase text-2xl p-4 ">
               <Link to={"/"}>lets schedule</Link>
