@@ -78,7 +78,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                 >
                   <img
                     src={message.sender === "user" ? photoUrls : logo}
-                    className="h-8 w-8 rounded-full mt-2"
+                    className="h-24 w-24 rounded-full mt-2"
                     alt=""
                   />
                   <p
