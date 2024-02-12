@@ -63,7 +63,7 @@ const AdminMainChat = ({ messages, refetch }) => {
             </div>
           ))}
         </div>
-        <div className="absolute bottom-4 w-[50%] left-72">
+        <div className="absolute bottom-4 w-[50%] left-[30rem]">
           <div className=" relative">
             <input
               className="input ml-[250px] w-full"
