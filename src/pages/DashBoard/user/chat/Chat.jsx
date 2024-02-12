@@ -9,7 +9,7 @@ const Chat = () => {
       <div className="fixed   md:bottom-0 md:right-16 z-20">
         <button
           onClick={() => setIsOpen(true)}
-          className="btn-chat flex items-center gap-1"
+          className="btn-chat flex items-center gap-1 animate-bounce"
         >
           <FaRocketchat /> chat with us
         </button>
