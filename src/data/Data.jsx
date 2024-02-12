@@ -9,6 +9,7 @@ import {
   FaHeadset,
   FaRegUser,
   FaShareAlt,
+  FaChartBar,
 } from "react-icons/fa";
 import { CiRoute } from "react-icons/ci";
 import { RiApps2Line } from "react-icons/ri";
@@ -112,6 +113,11 @@ export const userDashBoardNavData = [
 
 // handle provide the adminDashBoardNavData
 export const adminDashBoardNavData = [
+  {
+    icon: <FaChartBar />,
+    name: "OverView",
+    to: "/dashboard/overview"
+  },
   {
     icon: <FaRegUser />,
     name: "All User",
