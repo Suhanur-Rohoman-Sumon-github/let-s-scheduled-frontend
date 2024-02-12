@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import ChatModal from "../../../../componnents/modal/chat/modal";
 import { FaRocketchat } from "react-icons/fa";
+import { FaHandsClapping } from "react-icons/fa6";
 import logo from "../../../../assets/logo.png";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -37,6 +38,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const messageData = messages?.data?.messages;
   const isUserSaved = messages?.data?.userEmail;
   const photoUrl = messages?.data?.photoUrls;
+  const names = messages?.data?.userName;
   refetch();
   const sendMessage = async () => {
     if (!storedUser) {
@@ -67,8 +69,8 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
     <>
       {user ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
-            <div className=" max-h-[550px] overflow-y-auto">
+          <ChatModal name={names} isOpen={isOpen} setIsOpen={setIsOpen}>
+            <div className=" max-h-[490px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div
                   key={index}
@@ -109,7 +111,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
         </div>
       ) : storedUser ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <ChatModal name={names} isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className=" max-h-[550px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div
@@ -152,9 +154,6 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
       ) : (
         <div>
           <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
-            <h1 className="text-2xl text-[#0066FF] font-bold text-center">
-              For any help, please
-            </h1>
             <div className="flex items-center gap-2 px-2 mt-28 justify-center">
               <button
                 onClick={() => setIsOpen(false)}

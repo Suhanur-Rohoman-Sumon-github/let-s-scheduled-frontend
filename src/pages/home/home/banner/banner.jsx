@@ -38,10 +38,20 @@ const Banner = () => {
           </div>
         </div>
         <div className="text-left md:text-center">
-          <h1 className="text-primary">
-            Transforming Your Calendar into a{" "}
-            <span className="text-[#0069ff] pt-2">Masterpiece</span>
-          </h1>
+          {!user && (
+            <h1 className="text-primary">
+              Transforming Your Calendar into a{" "}
+              <span className="text-[#0069ff] pt-2 ">Masterpiece</span>
+            </h1>
+          )}
+          {user && (
+            <h1 className="text-primary capitalize">
+              Welcome back ,
+              <span className="text-[#0069ff] pt-2 ml-4">
+                {user?.displayName.split(" ")[0]}
+              </span>
+            </h1>
+          )}
           <p className="py-8 text-secondary ">
             Welcome to the future of event scheduling. Dive into a curated
             selection of experiences, tailor your social calendar, and make
