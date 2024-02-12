@@ -45,7 +45,7 @@ const SupportLayout = () => {
     refetch();
   }, [email, refetch]);
 
-  const drawerWidth = 55;
+  const drawerWidth = 60;
 
   const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -68,7 +68,7 @@ const SupportLayout = () => {
   const DrawerHeaderWrapper = styled("div")(({ theme }) => ({
     minHeight: 50, // Set your desired height here
     padding: theme.spacing(0, 1),
-    marginTop: -15,
+    marginTop: -10,
   }));
 
   const Drawer = styled(MuiDrawer, {
@@ -86,7 +86,7 @@ const SupportLayout = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Drawer className="bg-red-500 z-50" variant="permanent" open={true}>
+      <Drawer variant="permanent" open={true}>
         <List>
           {isAdmin?.isAdmin &&
             [
@@ -100,7 +100,7 @@ const SupportLayout = () => {
                 <NavLink to={text.to} className="bg-gray-500">
                   <ListItemButton
                     sx={{
-                      minHeight: 48,
+                      minHeight: 52,
                       justifyContent: "initial",
                       px: 2.5,
                       transition: "opacity 0.5s ease",
@@ -111,6 +111,7 @@ const SupportLayout = () => {
                         minWidth: 0,
                         mr: 3,
                         justifyContent: "center",
+                        fontSize: "24px",
                       }}
                     >
                       {text.icon}
@@ -135,11 +136,19 @@ const SupportLayout = () => {
         <List>
           {isAdmin?.isAdmin &&
             [
-              { icon: "👏", name: "Unassigned", to: "" },
+              { icon: "👏", name: "UnSeen", to: "" },
               { icon: "📊", name: "My Open", to: "" },
               { icon: "✅", name: "Solved", to: "" },
             ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+              <ListItem
+                key={text}
+                disablePadding
+                sx={{
+                  display: "block",
+                  width: "250px",
+                  borderBottom: "1px solid #ccc",
+                }}
+              >
                 <NavLink to={text.to}>
                   <ListItemButton
                     sx={{
