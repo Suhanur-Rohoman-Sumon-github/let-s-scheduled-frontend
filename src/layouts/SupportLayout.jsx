@@ -33,11 +33,14 @@ import { MdMoveToInbox } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { MdOutlineMail } from "react-icons/md";
 import { SiChatbot } from "react-icons/si";
+import useIsModerator from "../hooks/useIsModerator";
 
 const SupportLayout = () => {
   // received isAdmin from src/hooks/useAdmin file
-  const { isAdmin } = useAdmin();
 
+  const { isModerator } = useIsModerator();
+  // use loading stat to handle smooth facing
+  <Loading data={isModerator} />;
   const [email, setEmail] = useState("");
   const { messages, refetch } = useSingleMessage(email);
 
@@ -88,7 +91,7 @@ const SupportLayout = () => {
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={true}>
         <List>
-          {isAdmin?.isAdmin &&
+          {isModerator?.isModerator &&
             [
               { icon: <MdHome></MdHome> },
               { icon: <MdMoveToInbox></MdMoveToInbox> },
@@ -134,7 +137,7 @@ const SupportLayout = () => {
         <Divider />
 
         <List>
-          {isAdmin?.isAdmin &&
+          {isModerator?.isModerator &&
             [
               { icon: "👏", name: "UnSeen", to: "" },
               { icon: "📊", name: "My Open", to: "" },

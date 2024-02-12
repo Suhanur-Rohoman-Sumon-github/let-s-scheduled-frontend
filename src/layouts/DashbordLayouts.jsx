@@ -1,7 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import { NavLink, Outlet } from "react-router-dom";
 import DasboardNavbar from "../pages/shered/navbar/DasboardNavbar";
-import { adminDashBoardNavData, userDashBoardNavData } from "../data/Data";
+import {
+  adminDashBoardNavData,
+  moderatorDashBoardNavData,
+  userDashBoardNavData,
+} from "../data/Data";
 import useAdmin from "../hooks/useAdmin";
 import Loading from "../componnents/loading/Loading";
 import * as React from "react";
@@ -24,11 +28,20 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import useIsModerator from "../hooks/useIsModerator";
+import useIsUser from "../hooks/useIsUser";
 const DashboardLayouts = () => {
   // received isAdmin from src/hooks/useAdmin file
   const { isAdmin } = useAdmin();
   // use loading stat to handle smooth facing
   <Loading data={isAdmin} />;
+  const { isModerator } = useIsModerator();
+  // use loading stat to handle smooth facing
+  <Loading data={isModerator} />;
+  const { isUser } = useIsUser();
+
+  // use loading stat to handle smooth facing
+  <Loading data={isUser} />;
   const drawerWidth = 240;
 
   const openedMixin = (theme) => ({
@@ -149,63 +162,93 @@ const DashboardLayouts = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {isAdmin?.isAdmin
-            ? adminDashBoardNavData.map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                  <NavLink to={text.to}>
-                    <ListItemButton
+          {isAdmin?.isAdmin &&
+            adminDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
                       sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                        transition: "opacity 0.5s ease",
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
                       }}
                     >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {text.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text.name}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </NavLink>
-                </ListItem>
-              ))
-            : userDashBoardNavData.map((text, index) => (
-                <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                  <NavLink to={text.to}>
-                    <ListItemButton
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
+          {isUser?.isUser &&
+            userDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
                       sx={{
-                        minHeight: 48,
-                        justifyContent: open ? "initial" : "center",
-                        px: 2.5,
-                        transition: "opacity 0.5s ease",
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
                       }}
                     >
-                      <ListItemIcon
-                        sx={{
-                          minWidth: 0,
-                          mr: open ? 3 : "auto",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {text.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={text.name}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                    </ListItemButton>
-                  </NavLink>
-                </ListItem>
-              ))}
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
+          {isModerator?.isModerator &&
+            moderatorDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
         </List>
         <Divider />
         <List>

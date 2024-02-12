@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import ChatModal from "../../../../componnents/modal/chat/modal";
-import { FaRocketchat } from "react-icons/fa";
+import { IoIosSend } from "react-icons/io";
 import { FaHandsClapping } from "react-icons/fa6";
 import logo from "../../../../assets/logo.png";
 import { useEffect, useState } from "react";
@@ -104,7 +104,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                 onChange={(e) => setInputMessage(e.target.value)}
               />
               <button onClick={sendMessage} className="btn-chat">
-                <FaRocketchat />
+                <IoIosSend />
               </button>
             </div>
           </ChatModal>
@@ -146,7 +146,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                 onChange={(e) => setInputMessage(e.target.value)}
               />
               <button onClick={sendMessage} className="btn-chat">
-                <FaRocketchat />
+                <IoIosSend />
               </button>
             </div>
           </ChatModal>

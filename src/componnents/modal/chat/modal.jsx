@@ -55,7 +55,7 @@ const ChatModal = ({ name, isOpen, setIsOpen, children }) => {
                   <div className="pl-6">
                     <h1 className="text-white text-4xl flex gap-4 font-bold capitalize">
                       <FaHandsClapping className="text-yellow-500" />
-                      {`hi ${
+                      {` hi ${
                         user
                           ? user?.displayName.split(" ")[0]
                           : email
