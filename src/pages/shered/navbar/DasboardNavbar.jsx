@@ -6,7 +6,7 @@ import InviteUserModal from "../../../componnents/modal/InviteUserModal";
 const DasboardNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="flex items-center gap-2 md:mt-4  mr-4">
+    <div className="flex items-center gap-2 md:mt-4  mr-4 ">
       <div>
         <button
           onClick={() => setIsOpen(!isOpen)}

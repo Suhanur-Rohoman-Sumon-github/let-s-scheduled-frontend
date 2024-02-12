@@ -9,7 +9,7 @@ const MessageSidebar = ({ setEmail, refetches }) => {
     refetches();
   };
   return (
-    <div className="mt-10 overflow-y-auto no-scrollbar">
+    <div className="overflow-y-auto no-scrollbar w-56 mr-5 bg-base-200 h-screen">
       {allMessage?.data?.map((message) => (
         <div
           onClick={() => handleSpecificData(message?.userEmail)}
