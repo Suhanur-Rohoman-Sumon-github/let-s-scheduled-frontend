@@ -41,7 +41,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const sendMessage = async () => {
     if (!storedUser) {
       const post = await axios.post(
-        "http://localhost:3000/api/v1/message/save-message",
+        "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
         {
           messages: message,
         }
@@ -50,7 +50,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
 
     if (isUserSaved || storedUser) {
       const patch = await axios.patch(
-        `http://localhost:3000/api/v1/message/update-message?emails=${
+        `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
           user ? user?.email : email
         }`,
         {
