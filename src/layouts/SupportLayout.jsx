@@ -91,19 +91,27 @@ const SupportLayout = () => {
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={true}>
         <List>
-          {isAdmin?.isAdmin &&
+          {isModerator?.isModerator &&
             [
               { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
               { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
-              { icon: <IoMdPeople />, to: "/support/people", tooltip: "People" },
+              {
+                icon: <IoMdPeople />,
+                to: "/support/people",
+                tooltip: "People",
+              },
               { icon: <MdOutlineMail />, to: "/support/spam", tooltip: "Spam" },
-              { icon: <SiChatbot />, to: "/support/AiChat", tooltip: "AI Chat" },
+              {
+                icon: <SiChatbot />,
+                to: "/support/AiChat",
+                tooltip: "AI Chat",
+              },
             ].map((text) => (
               <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
                 <Tooltip title={text.tooltip} placement="right">
                   <NavLink
                     to={text.to}
-                    className={`bg-gray-500`}
+                    className={`bg-[#0066FF]`}
                     onClick={() => handleListClick(text.to)}
                   >
                     <ListItemButton
@@ -112,7 +120,9 @@ const SupportLayout = () => {
                         justifyContent: "initial",
                         px: 2.5,
                         transition: "opacity 0.5s ease",
-                        backgroundColor: selectedList === text.to ? "gray" : "", // Set the background color for the selected list item
+                        backgroundColor:
+                          selectedList === text.to ? "#0066FF " : "",
+                        text: selectedList === text.to ? "#FFF " : "",
                       }}
                     >
                       <ListItemIcon
