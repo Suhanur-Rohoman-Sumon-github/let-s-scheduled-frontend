@@ -76,26 +76,41 @@ const SupportLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
 
+  const [selectedList, setSelectedList] = useState("");
+
+  if (!isModerator) {
+    return <Loading data={isModerator} />;
+  }
+
+  const handleListClick = (to) => {
+    setSelectedList(to);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={true}>
         <List>
           {isAdmin?.isAdmin &&
             [
-              { icon: <MdHome></MdHome>, to: "/support/home" },
-              { icon: <MdMoveToInbox></MdMoveToInbox>, },
-              { icon: <IoMdPeople></IoMdPeople> },
-              { icon: <MdOutlineMail></MdOutlineMail> },
-              { icon: <SiChatbot></SiChatbot> },
+              { icon: <MdHome />, to: "/support/home" },
+              { icon: <MdMoveToInbox />, to: "/support/chat" },
+              { icon: <IoMdPeople /> },
+              { icon: <MdOutlineMail /> },
+              { icon: <SiChatbot /> },
             ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <NavLink to={text.to} className="bg-gray-500">
+              <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
+                <NavLink
+                  to={text.to}
+                  className={`bg-gray-500`}
+                  onClick={() => handleListClick(text.to)}
+                >
                   <ListItemButton
                     sx={{
                       minHeight: 52,
                       justifyContent: "initial",
                       px: 2.5,
                       transition: "opacity 0.5s ease",
+                      backgroundColor: selectedList === text.to ? "gray" : "", // Set the background color for the selected list item
                     }}
                   >
                     <ListItemIcon
@@ -118,69 +133,76 @@ const SupportLayout = () => {
         </List> */}
       </Drawer>
       <List variant="permanent" open={true}>
-        <DrawerHeaderWrapper>
-          <DrawerHeader onClick={() => setOpen(!open)}>
-            <MdPlayArrow
-              className={`text-xl transition-all duration-200 ${
-                open ? "rotate-90" : ""
-              }`}
-            ></MdPlayArrow>
-            <p className="text-center font-cursive uppercase text-xl ml-2">
-              Inbox
-            </p>
-          </DrawerHeader>
-        </DrawerHeaderWrapper>
+        {selectedList === "/support/chat" && (
+          <DrawerHeaderWrapper>
+            <DrawerHeader
+              className="hover:cursor-pointer"
+              onClick={() => setOpen(!open)}
+            >
+              <MdPlayArrow
+                className={`text-xl transition-all duration-200 ${
+                  open ? "rotate-90" : ""
+                }`}
+              ></MdPlayArrow>
+              <p className="text-center font-cursive uppercase text-xl ml-2">
+                Inbox
+              </p>
+            </DrawerHeader>
+          </DrawerHeaderWrapper>
+        )}
         <Divider />
 
-        <List>
-          {open &&
-            isAdmin?.isAdmin &&
-            [
-              { icon: "👏", name: "UnSeen", to: "" },
-              { icon: "📊", name: "My Open", to: "" },
-              { icon: "✅", name: "Solved", to: "" },
-            ].map((text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
-                sx={{
-                  width: "225px",
-                  borderBottom: "1px solid #ccc",
-                }}
-              >
-                <NavLink to={text.to}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: "initial",
-                      px: 1.5,
-                    }}
-                  >
-                    <ListItemIcon
+        {selectedList === "/support/chat" && (
+          <List>
+            {open &&
+              isAdmin?.isAdmin &&
+              [
+                { icon: "👏", name: "UnSeen", to: "" },
+                { icon: "📊", name: "My Open", to: "" },
+                { icon: "✅", name: "Solved", to: "" },
+              ].map((text, index) => (
+                <ListItem
+                  key={text}
+                  disablePadding
+                  sx={{
+                    width: "225px",
+                    borderBottom: "1px solid #ccc",
+                  }}
+                >
+                  <NavLink to={text.to}>
+                    <ListItemButton
                       sx={{
-                        minWidth: 0,
-                        mr: 3,
-                        justifyContent: "center",
+                        minHeight: 48,
+                        justifyContent: "initial",
+                        px: 1.5,
                       }}
                     >
-                      {text.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={text.name} />
-                  </ListItemButton>
-                </NavLink>
-              </ListItem>
-            ))}
-          <List>
-            <MessageSidebar refetches={refetch} setEmail={setEmail} />
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: 3,
+                          justifyContent: "center",
+                        }}
+                      >
+                        {text.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={text.name} />
+                    </ListItemButton>
+                  </NavLink>
+                </ListItem>
+              ))}
+            <List>
+              <MessageSidebar refetches={refetch} setEmail={setEmail} />
+            </List>
           </List>
-        </List>
+        )}
       </List>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
           {/* <AdminMainChat messages={messages} refetch={refetch} />
            */}
-           <Outlet></Outlet>
+          <Outlet></Outlet>
         </Typography>
       </Box>
     </Box>
