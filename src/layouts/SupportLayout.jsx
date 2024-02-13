@@ -93,7 +93,7 @@ const SupportLayout = () => {
         <List>
           {isModerator?.isModerator &&
             [
-              { icon: <MdHome></MdHome> },
+              { icon: <MdHome></MdHome>, to: "/support/home" },
               { icon: <MdMoveToInbox></MdMoveToInbox> },
               { icon: <IoMdPeople></IoMdPeople> },
               { icon: <MdOutlineMail></MdOutlineMail> },

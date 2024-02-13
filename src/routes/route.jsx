@@ -34,7 +34,7 @@ import Availability from "../pages/DashBoard/user/Availability/Availability";
 import IntegrationsAndApps from "../pages/DashBoard/user/IntegrationsAndApps/IntegrationsAndApps";
 import Message from "../pages/DashBoard/admin/messages.jsx/Message";
 import SupportLayout from "../layouts/SupportLayout";
-import Support from "../pages/Support/Admin/Support";
+import SupportHome from "../pages/Support/SupportHome";
 
 const router = createBrowserRouter([
   {
@@ -180,9 +180,9 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/support",
-        element: <Support></Support>,
-      }
+        path: "/support/home",
+        element: <SupportHome />,
+      },
     ],
   },
   {
