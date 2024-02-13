@@ -11,6 +11,7 @@ import {
   FaShareAlt,
   FaChartBar,
 } from "react-icons/fa";
+import { MdSupportAgent } from "react-icons/md";
 import { CiRoute } from "react-icons/ci";
 import { RiApps2Line } from "react-icons/ri";
 
@@ -116,7 +117,7 @@ export const adminDashBoardNavData = [
   {
     icon: <FaChartBar />,
     name: "OverView",
-    to: "/dashboard/overview"
+    to: "/dashboard/overview",
   },
   {
     icon: <FaRegUser />,
@@ -132,6 +133,13 @@ export const adminDashBoardNavData = [
     icon: <FaRocketchat />,
     name: "Messages",
     to: "/dashboard/messages",
+  },
+];
+export const moderatorDashBoardNavData = [
+  {
+    icon: <MdSupportAgent />,
+    name: "Support",
+    to: "/support",
   },
 ];
 

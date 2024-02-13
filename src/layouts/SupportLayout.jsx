@@ -20,11 +20,15 @@ import { MdMoveToInbox } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { MdOutlineMail } from "react-icons/md";
 import { SiChatbot } from "react-icons/si";
-
+import useIsModerator from "../hooks/useIsModerator";
+import Loading from "../componnents/loading/Loading";
+import { Outlet } from "react-router-dom";
 const SupportLayout = () => {
   // received isAdmin from src/hooks/useAdmin file
   const { isAdmin } = useAdmin();
-
+  const { isModerator } = useIsModerator();
+  // use loading stat to handle smooth facing
+  <Loading data={isModerator} />;
   const [email, setEmail] = useState("");
   const { messages, refetch } = useSingleMessage(email);
 
@@ -78,8 +82,8 @@ const SupportLayout = () => {
         <List>
           {isAdmin?.isAdmin &&
             [
-              { icon: <MdHome></MdHome> },
-              { icon: <MdMoveToInbox></MdMoveToInbox> },
+              { icon: <MdHome></MdHome>, to: "/support/home" },
+              { icon: <MdMoveToInbox></MdMoveToInbox>, },
               { icon: <IoMdPeople></IoMdPeople> },
               { icon: <MdOutlineMail></MdOutlineMail> },
               { icon: <SiChatbot></SiChatbot> },
@@ -174,7 +178,9 @@ const SupportLayout = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          <AdminMainChat messages={messages} refetch={refetch} />
+          {/* <AdminMainChat messages={messages} refetch={refetch} />
+           */}
+           <Outlet></Outlet>
         </Typography>
       </Box>
     </Box>
