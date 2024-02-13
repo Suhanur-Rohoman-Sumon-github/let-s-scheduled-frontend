@@ -1,43 +1,32 @@
 import useAdmin from "../hooks/useAdmin";
-import Loading from "../componnents/loading/Loading";
 import { useEffect, useState } from "react";
 import useSingleMessage from "../hooks/useSingleMessage";
 import MessageSidebar from "../componnents/AdminMessage/MessageSidebar";
 import AdminMainChat from "../componnents/AdminMessage/AdminMainChat";
 /* eslint-disable react/no-unescaped-entities */
-import { NavLink, Outlet } from "react-router-dom";
-import { adminDashBoardNavData, userDashBoardNavData } from "../data/Data";
-import { MdMessage } from "react-icons/md";
-import { PiHandsClappingLight } from "react-icons/pi";
-
-import * as React from "react";
+import { NavLink } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import { Tooltip } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { MdHome } from "react-icons/md";
+import { MdHome, MdPlayArrow } from "react-icons/md";
 import { MdMoveToInbox } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { MdOutlineMail } from "react-icons/md";
 import { SiChatbot } from "react-icons/si";
 import useIsModerator from "../hooks/useIsModerator";
-
+import Loading from "../componnents/loading/Loading";
+import { Outlet } from "react-router-dom";
 const SupportLayout = () => {
   // received isAdmin from src/hooks/useAdmin file
-
+  const { isAdmin } = useAdmin();
   const { isModerator } = useIsModerator();
   // use loading stat to handle smooth facing
   <Loading data={isModerator} />;
@@ -64,7 +53,7 @@ const SupportLayout = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 6),
     ...theme.mixins.toolbar,
   }));
 
@@ -86,106 +75,139 @@ const SupportLayout = () => {
   }));
 
   const theme = useTheme();
+  const [open, setOpen] = useState(true);
+
+  const [selectedList, setSelectedList] = useState("");
+
+  if (!isModerator) {
+    return <Loading data={isModerator} />;
+  }
+
+  const handleListClick = (to) => {
+    setSelectedList(to);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={true}>
         <List>
-          {isModerator?.isModerator &&
+          {isAdmin?.isAdmin &&
             [
-              { icon: <MdHome></MdHome>, to: "/support/home" },
-              { icon: <MdMoveToInbox></MdMoveToInbox> },
-              { icon: <IoMdPeople></IoMdPeople> },
-              { icon: <MdOutlineMail></MdOutlineMail> },
-              { icon: <SiChatbot></SiChatbot> },
-            ].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <NavLink to={text.to} className="bg-gray-500">
-                  <ListItemButton
-                    sx={{
-                      minHeight: 52,
-                      justifyContent: "initial",
-                      px: 2.5,
-                      transition: "opacity 0.5s ease",
-                    }}
+              { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
+              { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
+              { icon: <IoMdPeople />, to: "/support/people", tooltip: "People" },
+              { icon: <MdOutlineMail />, to: "/support/spam", tooltip: "Spam" },
+              { icon: <SiChatbot />, to: "/support/AiChat", tooltip: "AI Chat" },
+            ].map((text) => (
+              <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
+                <Tooltip title={text.tooltip} placement="right">
+                  <NavLink
+                    to={text.to}
+                    className={`bg-gray-500`}
+                    onClick={() => handleListClick(text.to)}
                   >
-                    <ListItemIcon
+                    <ListItemButton
                       sx={{
-                        minWidth: 0,
-                        mr: 3,
-                        justifyContent: "center",
-                        fontSize: "24px",
+                        minHeight: 52,
+                        justifyContent: "initial",
+                        px: 2.5,
+                        transition: "opacity 0.5s ease",
+                        backgroundColor: selectedList === text.to ? "gray" : "", // Set the background color for the selected list item
                       }}
                     >
-                      {text.icon}
-                    </ListItemIcon>
-                  </ListItemButton>
-                </NavLink>
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: 3,
+                          justifyContent: "center",
+                          fontSize: "24px",
+                        }}
+                      >
+                        {text.icon}
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </NavLink>
+                </Tooltip>
               </ListItem>
             ))}
         </List>
-        <List className="lg:hidden">
+        {/* <List className="lg:hidden">
           <MessageSidebar refetches={refetch} setEmail={setEmail} />
-        </List>
+        </List> */}
       </Drawer>
       <List variant="permanent" open={true}>
-        <DrawerHeaderWrapper>
-          <DrawerHeader>
-            <p className="text-center font-cursive uppercase text-xl">Inbox</p>
-          </DrawerHeader>
-        </DrawerHeaderWrapper>
+        {selectedList === "/support/chat" && (
+          <DrawerHeaderWrapper>
+            <DrawerHeader
+              className="hover:cursor-pointer"
+              onClick={() => setOpen(!open)}
+            >
+              <MdPlayArrow
+                className={`text-xl transition-all duration-200 ${
+                  open ? "rotate-90" : ""
+                }`}
+              ></MdPlayArrow>
+              <p className="text-center font-cursive uppercase text-xl ml-2">
+                Inbox
+              </p>
+            </DrawerHeader>
+          </DrawerHeaderWrapper>
+        )}
         <Divider />
 
-        <List>
-          {isModerator?.isModerator &&
-            [
-              { icon: "👏", name: "UnSeen", to: "" },
-              { icon: "📊", name: "My Open", to: "" },
-              { icon: "✅", name: "Solved", to: "" },
-            ].map((text, index) => (
-              <ListItem
-                key={text}
-                disablePadding
-                sx={{
-                  display: "block",
-                  width: "250px",
-                  borderBottom: "1px solid #ccc",
-                }}
-              >
-                <NavLink to={text.to}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: "initial",
-                      px: 2.5,
-                      transition: "opacity 0.5s ease",
-                    }}
-                  >
-                    <ListItemIcon
+        {selectedList === "/support/chat" && (
+          <List>
+            {open &&
+              isAdmin?.isAdmin &&
+              [
+                { icon: "👏", name: "UnSeen", to: "" },
+                { icon: "📊", name: "My Open", to: "" },
+                { icon: "✅", name: "Solved", to: "" },
+              ].map((text, index) => (
+                <ListItem
+                  key={text}
+                  disablePadding
+                  sx={{
+                    width: "225px",
+                    borderBottom: "1px solid #ccc",
+                  }}
+                >
+                  <NavLink to={text.to}>
+                    <ListItemButton
                       sx={{
-                        minWidth: 0,
-                        mr: 3,
-                        justifyContent: "center",
+                        minHeight: 48,
+                        justifyContent: "initial",
+                        px: 1.5,
                       }}
                     >
-                      {text.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={text.name} />
-                  </ListItemButton>
-                </NavLink>
-              </ListItem>
-            ))}
-        </List>
-        <List className="lg:hidden">
-          <MessageSidebar refetches={refetch} setEmail={setEmail} />
-        </List>
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: 3,
+                          justifyContent: "center",
+                        }}
+                      >
+                        {text.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={text.name} />
+                    </ListItemButton>
+                  </NavLink>
+                </ListItem>
+              ))}
+            <List>
+              <MessageSidebar refetches={refetch} setEmail={setEmail} />
+            </List>
+          </List>
+        )}
       </List>
-      <List className="hidden lg:flex">
-        <MessageSidebar refetches={refetch} setEmail={setEmail} />
-      </List>
+
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          <AdminMainChat messages={messages} refetch={refetch} />
+          {selectedList === "/support/chat" ? (
+            <AdminMainChat messages={messages} refetch={refetch} />
+          ) : (
+            <Outlet></Outlet>
+          )}
         </Typography>
       </Box>
     </Box>
