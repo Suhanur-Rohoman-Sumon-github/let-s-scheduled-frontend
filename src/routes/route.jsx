@@ -181,7 +181,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/support/home",
+        path: "/support",
         element: <SupportHome />,
       },
       {
@@ -189,6 +189,11 @@ const router = createBrowserRouter([
         element: <SupportHome />,
       },
       {
+        path: "/support/home",
+        element: <SupportHome />,
+      },
+      {
+        index: true,
         path: "/support/chat",
         element: <AdminMainChat></AdminMainChat>,
       },

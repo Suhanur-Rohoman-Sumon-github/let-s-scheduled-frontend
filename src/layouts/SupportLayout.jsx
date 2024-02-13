@@ -4,7 +4,7 @@ import useSingleMessage from "../hooks/useSingleMessage";
 import MessageSidebar from "../componnents/AdminMessage/MessageSidebar";
 import AdminMainChat from "../componnents/AdminMessage/AdminMainChat";
 /* eslint-disable react/no-unescaped-entities */
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -79,13 +79,14 @@ const SupportLayout = () => {
 
   const [selectedList, setSelectedList] = useState("");
 
-  if (!isModerator) {
-    return <Loading data={isModerator} />;
-  }
-
   const handleListClick = (to) => {
     setSelectedList(to);
   };
+
+
+  if (!isModerator) {
+    return <Loading data={isModerator} />;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -95,9 +96,17 @@ const SupportLayout = () => {
             [
               { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
               { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
-              { icon: <IoMdPeople />, to: "/support/people", tooltip: "People" },
+              {
+                icon: <IoMdPeople />,
+                to: "/support/people",
+                tooltip: "People",
+              },
               { icon: <MdOutlineMail />, to: "/support/spam", tooltip: "Spam" },
-              { icon: <SiChatbot />, to: "/support/AiChat", tooltip: "AI Chat" },
+              {
+                icon: <SiChatbot />,
+                to: "/support/AiChat",
+                tooltip: "AI Chat",
+              },
             ].map((text) => (
               <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
                 <Tooltip title={text.tooltip} placement="right">
