@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import { Tooltip } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { MdHome, MdPlayArrow } from "react-icons/md";
@@ -92,39 +93,41 @@ const SupportLayout = () => {
         <List>
           {isAdmin?.isAdmin &&
             [
-              { icon: <MdHome />, to: "/support/home" },
-              { icon: <MdMoveToInbox />, to: "/support/chat" },
-              { icon: <IoMdPeople /> },
-              { icon: <MdOutlineMail /> },
-              { icon: <SiChatbot /> },
-            ].map((text, index) => (
+              { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
+              { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
+              { icon: <IoMdPeople />, to: "/support/people", tooltip: "People" },
+              { icon: <MdOutlineMail />, to: "/support/spam", tooltip: "Spam" },
+              { icon: <SiChatbot />, to: "/support/AiChat", tooltip: "AI Chat" },
+            ].map((text) => (
               <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
-                <NavLink
-                  to={text.to}
-                  className={`bg-gray-500`}
-                  onClick={() => handleListClick(text.to)}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 52,
-                      justifyContent: "initial",
-                      px: 2.5,
-                      transition: "opacity 0.5s ease",
-                      backgroundColor: selectedList === text.to ? "gray" : "", // Set the background color for the selected list item
-                    }}
+                <Tooltip title={text.tooltip} placement="right">
+                  <NavLink
+                    to={text.to}
+                    className={`bg-gray-500`}
+                    onClick={() => handleListClick(text.to)}
                   >
-                    <ListItemIcon
+                    <ListItemButton
                       sx={{
-                        minWidth: 0,
-                        mr: 3,
-                        justifyContent: "center",
-                        fontSize: "24px",
+                        minHeight: 52,
+                        justifyContent: "initial",
+                        px: 2.5,
+                        transition: "opacity 0.5s ease",
+                        backgroundColor: selectedList === text.to ? "gray" : "", // Set the background color for the selected list item
                       }}
                     >
-                      {text.icon}
-                    </ListItemIcon>
-                  </ListItemButton>
-                </NavLink>
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: 3,
+                          justifyContent: "center",
+                          fontSize: "24px",
+                        }}
+                      >
+                        {text.icon}
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </NavLink>
+                </Tooltip>
               </ListItem>
             ))}
         </List>
@@ -200,9 +203,11 @@ const SupportLayout = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          {/* <AdminMainChat messages={messages} refetch={refetch} />
-           */}
-          <Outlet></Outlet>
+          {selectedList === "/support/chat" ? (
+            <AdminMainChat messages={messages} refetch={refetch} />
+          ) : (
+            <Outlet></Outlet>
+          )}
         </Typography>
       </Box>
     </Box>
