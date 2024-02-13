@@ -5,62 +5,61 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import ChatModalContent from "../../../pages/DashBoard/user/chat/ChatModalContent";
 import { IoIosSend } from "react-icons/io";
-import { format } from "timeago.js";
 const LoggedUserChatModal = ({ isOpen, setIsOpen }) => {
-  const { user } = useContexts();
+  // const { user } = useContexts();
 
-  const [inputMessage, setInputMessage] = useState("");
-  const messageId = uuidv4();
-  const userName = user?.displayName;
-  const userEmail = user?.email;
-  const photoUrls = user?.photoURL;
+  // const [inputMessage, setInputMessage] = useState("");
+  // const messageId = uuidv4();
+  // const userName = user?.displayName;
+  // const userEmail = user?.email;
+  // const photoUrls = user?.photoURL;
 
-  const sender = "user";
-  const content = inputMessage;
-  const message = {
-    messageId,
-    userName,
-    userEmail,
-    photoUrls,
-    messages: [{ sender, content }],
-  };
+  // const sender = "user";
+  // const content = inputMessage;
+  // const message = {
+  //   messageId,
+  //   userName,
+  //   userEmail,
+  //   photoUrls,
+  //   messages: [{ sender, content }],
+  // };
 
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const email = storedUser?.userEmail;
-  const newMessages = [{ sender, content }];
-  const { messages, refetch } = useSingleMessage(user ? userEmail : email);
-  const messageData = messages?.data?.messages;
-  const isUserSaved = messages?.data?.userEmail;
-  const photoUrl = messages?.data?.photoUrls;
-  const names = messages?.data?.userName;
-  refetch();
-  const sendMessage = async () => {
-    if (!storedUser) {
-      const post = await axios.post(
-        "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
-        {
-          messages: message,
-        }
-      );
-    }
+  // const storedUser = JSON.parse(localStorage.getItem("user"));
+  // const email = storedUser?.userEmail;
+  // const newMessages = [{ sender, content }];
+  // const { messages, refetch } = useSingleMessage(user ? userEmail : email);
+  // const messageData = messages?.data?.messages;
+  // const isUserSaved = messages?.data?.userEmail;
+  // const photoUrl = messages?.data?.photoUrls;
+  // const names = messages?.data?.userName;
+  // refetch();
+  // const sendMessage = async () => {
+  //   if (!storedUser) {
+  //     const post = await axios.post(
+  //       "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
+  //       {
+  //         messages: message,
+  //       }
+  //     );
+  //   }
 
-    if (isUserSaved || storedUser) {
-      const patch = await axios.patch(
-        `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
-          user ? user?.email : email
-        }`,
-        {
-          newMessage: newMessages,
-        }
-      );
-    }
+  //   if (isUserSaved || storedUser) {
+  //     const patch = await axios.patch(
+  //       `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
+  //         user ? user?.email : email
+  //       }`,
+  //       {
+  //         newMessage: newMessages,
+  //       }
+  //     );
+  //   }
 
-    refetch();
-    setInputMessage("");
-  };
+  //   refetch();
+  //   setInputMessage("");
+  // };
   return (
     <div className=" relative ">
-      <ChatModalContent name={names} isOpen={isOpen} setIsOpen={setIsOpen}>
+      {/* <ChatModalContent name={names} isOpen={isOpen} setIsOpen={setIsOpen}>
         <div className=" max-h-[490px] overflow-y-auto">
           {messageData?.map((message, index) => (
             <div
@@ -109,7 +108,7 @@ const LoggedUserChatModal = ({ isOpen, setIsOpen }) => {
             <IoIosSend />
           </button>
         </div>
-      </ChatModalContent>
+      </ChatModalContent> */}
     </div>
   );
 };

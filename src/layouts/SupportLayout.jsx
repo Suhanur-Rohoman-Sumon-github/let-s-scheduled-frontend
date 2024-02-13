@@ -53,7 +53,7 @@ const SupportLayout = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 6),
+    padding: theme.spacing(0, 0),
     ...theme.mixins.toolbar,
   }));
 
@@ -82,7 +82,6 @@ const SupportLayout = () => {
   const handleListClick = (to) => {
     setSelectedList(to);
   };
-
 
   if (!isModerator) {
     return <Loading data={isModerator} />;
@@ -156,16 +155,14 @@ const SupportLayout = () => {
                   open ? "rotate-90" : ""
                 }`}
               ></MdPlayArrow>
-              <p className="text-center font-cursive uppercase text-xl ml-2">
-                Inbox
-              </p>
+              <p className="font-cursive uppercase text-xl ml-2">Inbox</p>
             </DrawerHeader>
           </DrawerHeaderWrapper>
         )}
         <Divider />
 
         {selectedList === "/support/chat" && (
-          <List>
+          <List className="border-r border-gray-300">
             {open &&
               isAdmin?.isAdmin &&
               [
