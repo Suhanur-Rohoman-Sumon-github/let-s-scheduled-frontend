@@ -1,43 +1,31 @@
 import useAdmin from "../hooks/useAdmin";
-import Loading from "../componnents/loading/Loading";
 import { useEffect, useState } from "react";
 import useSingleMessage from "../hooks/useSingleMessage";
 import MessageSidebar from "../componnents/AdminMessage/MessageSidebar";
 import AdminMainChat from "../componnents/AdminMessage/AdminMainChat";
 /* eslint-disable react/no-unescaped-entities */
-import { NavLink, Outlet } from "react-router-dom";
-import { adminDashBoardNavData, userDashBoardNavData } from "../data/Data";
-import { MdMessage } from "react-icons/md";
-import { PiHandsClappingLight } from "react-icons/pi";
-
-import * as React from "react";
+import { NavLink } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { MdHome } from "react-icons/md";
+import { MdHome, MdPlayArrow } from "react-icons/md";
 import { MdMoveToInbox } from "react-icons/md";
 import { IoMdPeople } from "react-icons/io";
 import { MdOutlineMail } from "react-icons/md";
 import { SiChatbot } from "react-icons/si";
 import useIsModerator from "../hooks/useIsModerator";
-
+import Loading from "../componnents/loading/Loading";
+import { Outlet } from "react-router-dom";
 const SupportLayout = () => {
   // received isAdmin from src/hooks/useAdmin file
-
+  const { isAdmin } = useAdmin();
   const { isModerator } = useIsModerator();
   // use loading stat to handle smooth facing
   <Loading data={isModerator} />;
@@ -64,7 +52,7 @@ const SupportLayout = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 6),
     ...theme.mixins.toolbar,
   }));
 
@@ -86,15 +74,16 @@ const SupportLayout = () => {
   }));
 
   const theme = useTheme();
+  const [open, setOpen] = useState(true);
 
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={true}>
         <List>
-          {isModerator?.isModerator &&
+          {isAdmin?.isAdmin &&
             [
               { icon: <MdHome></MdHome>, to: "/support/home" },
-              { icon: <MdMoveToInbox></MdMoveToInbox> },
+              { icon: <MdMoveToInbox></MdMoveToInbox>, },
               { icon: <IoMdPeople></IoMdPeople> },
               { icon: <MdOutlineMail></MdOutlineMail> },
               { icon: <SiChatbot></SiChatbot> },
@@ -124,20 +113,28 @@ const SupportLayout = () => {
               </ListItem>
             ))}
         </List>
-        <List className="lg:hidden">
+        {/* <List className="lg:hidden">
           <MessageSidebar refetches={refetch} setEmail={setEmail} />
-        </List>
+        </List> */}
       </Drawer>
       <List variant="permanent" open={true}>
         <DrawerHeaderWrapper>
-          <DrawerHeader>
-            <p className="text-center font-cursive uppercase text-xl">Inbox</p>
+          <DrawerHeader onClick={() => setOpen(!open)}>
+            <MdPlayArrow
+              className={`text-xl transition-all duration-200 ${
+                open ? "rotate-90" : ""
+              }`}
+            ></MdPlayArrow>
+            <p className="text-center font-cursive uppercase text-xl ml-2">
+              Inbox
+            </p>
           </DrawerHeader>
         </DrawerHeaderWrapper>
         <Divider />
 
         <List>
-          {isModerator?.isModerator &&
+          {open &&
+            isAdmin?.isAdmin &&
             [
               { icon: "👏", name: "UnSeen", to: "" },
               { icon: "📊", name: "My Open", to: "" },
@@ -147,8 +144,7 @@ const SupportLayout = () => {
                 key={text}
                 disablePadding
                 sx={{
-                  display: "block",
-                  width: "250px",
+                  width: "225px",
                   borderBottom: "1px solid #ccc",
                 }}
               >
@@ -157,8 +153,7 @@ const SupportLayout = () => {
                     sx={{
                       minHeight: 48,
                       justifyContent: "initial",
-                      px: 2.5,
-                      transition: "opacity 0.5s ease",
+                      px: 1.5,
                     }}
                   >
                     <ListItemIcon
@@ -175,17 +170,17 @@ const SupportLayout = () => {
                 </NavLink>
               </ListItem>
             ))}
-        </List>
-        <List className="lg:hidden">
-          <MessageSidebar refetches={refetch} setEmail={setEmail} />
+          <List>
+            <MessageSidebar refetches={refetch} setEmail={setEmail} />
+          </List>
         </List>
       </List>
-      <List className="hidden lg:flex">
-        <MessageSidebar refetches={refetch} setEmail={setEmail} />
-      </List>
+
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          <AdminMainChat messages={messages} refetch={refetch} />
+          {/* <AdminMainChat messages={messages} refetch={refetch} />
+           */}
+           <Outlet></Outlet>
         </Typography>
       </Box>
     </Box>

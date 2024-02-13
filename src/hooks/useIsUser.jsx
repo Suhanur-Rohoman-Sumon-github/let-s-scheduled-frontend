@@ -11,7 +11,7 @@ const useIsUser = () => {
     queryKey: ["isUser"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/users/get-isUser?email=${user?.email}`
+        `https://lets-sheduleit-backend.vercel.app/api/v1/users/get-isUser?email=${user?.email}`
       );
       return res.data;
     },
