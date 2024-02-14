@@ -1,16 +1,14 @@
-import useAllMessages from "../../hooks/useAllMessages";
+/* eslint-disable react/prop-types */
 import useCategoryMessages from "../../hooks/useCategoryMessages";
 
-const ModaretorChat = ({ subCategory, setEmail, refetches }) => {
+const ModaretorChat = ({ subCategory, setEmail }) => {
   const { categoryMessages, refetch } = useCategoryMessages(subCategory);
-  console.log(categoryMessages);
   const handleSpecificData = (email) => {
-    refetch();
     setEmail(email);
-    refetches();
   };
+  refetch();
   return (
-    <div className="overflow-y-auto no-scrollbar w-56 mr-5 bg-base-200 h-screen">
+    <div className="overflow-y-auto no-scrollbar w-56 bg-base-200 h-screen">
       {categoryMessages?.data?.map((message) => (
         <div
           onClick={() => handleSpecificData(message?.userEmail)}
