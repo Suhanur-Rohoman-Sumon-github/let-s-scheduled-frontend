@@ -6,7 +6,7 @@ const useCategoryMessages = (subCategory) => {
     queryKey: ["categoryMessages"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/message/category-message?subCategory=${subCategory}`
+        `https://lets-sheduleit-backend.vercel.app/api/v1/message/category-message?subCategory=${subCategory}`
       );
       return res.data;
     },

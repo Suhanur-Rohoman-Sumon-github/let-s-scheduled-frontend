@@ -15,26 +15,43 @@ const ModaretorMainChat = ({ messages, refetch }) => {
   const newMessages = [{ sender, content }];
   const sendMessage = async () => {
     const patch = await axios.patch(
-      `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${email}`,
+      `http://localhost:3000/api/v1/message/update-message?emails=${email}`,
       {
         newMessage: newMessages,
+        subcategory: "myOpen",
       }
     );
 
     refetch();
     setInputMessage("");
   };
+  const handleMakeSolved = async () => {
+    const patch = await axios.patch(
+      `http://localhost:3000/api/v1/message/update-message?emails=${email}`,
+      {
+        subcategory: "solved",
+      }
+    );
+
+    refetch();
+  };
   return (
     <div>
-      <div className="flex gap-x-3 mb-10 shadow-sm shadow-gray-200 p-5">
-        <img
-          src={messages?.data?.photoUrls}
-          className="h-10 w-10 rounded-full ml-4"
-          alt=""
-        />
-        <h1 className="text-xl font-bold text-gray-500 ">
-          {messages?.data?.userName}
-        </h1>
+      <div className="flex gap-x-3 mb-10 shadow-sm shadow-gray-200 p-5 justify-between">
+        <div className="flex items-center gap-4">
+          <img
+            src={messages?.data?.photoUrls}
+            className="h-10 w-10 rounded-full ml-4"
+            alt=""
+          />
+
+          <h1 className="text-xl font-bold text-gray-500 ">
+            {messages?.data?.userName}
+          </h1>
+        </div>
+        <button onClick={handleMakeSolved} className="btn-primary">
+          make as a solved
+        </button>
       </div>
       <div>
         <div className=" max-h-[450px] overflow-y-auto w-9/12 mx-auto">

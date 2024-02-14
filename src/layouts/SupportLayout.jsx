@@ -1,4 +1,4 @@
-import useAdmin from "../hooks/useAdmin";
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import useSingleMessage from "../hooks/useSingleMessage";
 import MessageSidebar from "../componnents/AdminMessage/MessageSidebar";
@@ -24,18 +24,15 @@ import { SiChatbot } from "react-icons/si";
 import useIsModerator from "../hooks/useIsModerator";
 import Loading from "../componnents/loading/Loading";
 import { Outlet } from "react-router-dom";
+import useAdmin from "../hooks/useAdmin";
+import useCategoryMessages from "../hooks/useCategoryMessages";
 const SupportLayout = () => {
-  // received isAdmin from src/hooks/useAdmin file
-  const { isAdmin } = useAdmin();
   const { isModerator } = useIsModerator();
   // use loading stat to handle smooth facing
   <Loading data={isModerator} />;
   const [email, setEmail] = useState("");
-  const { messages, refetch } = useSingleMessage(email);
 
-  useEffect(() => {
-    refetch();
-  }, [email, refetch]);
+  const { isAdmin } = useAdmin();
 
   const drawerWidth = 60;
 
@@ -53,13 +50,13 @@ const SupportLayout = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 0),
+    padding: theme.spacing(0, 2),
     ...theme.mixins.toolbar,
   }));
 
   const DrawerHeaderWrapper = styled("div")(({ theme }) => ({
     minHeight: 50, // Set your desired height here
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 0),
     marginTop: -10,
   }));
 
@@ -74,13 +71,20 @@ const SupportLayout = () => {
     "& .MuiDrawer-paper": openedMixin(theme),
   }));
 
-  const theme = useTheme();
   const [open, setOpen] = useState(true);
-
   const [selectedList, setSelectedList] = useState("");
-
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const { categoryMessages, refetch } =
+    useCategoryMessages(selectedSubcategory);
+  console.log(categoryMessages);
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
   const handleListClick = (to) => {
     setSelectedList(to);
+  };
+  const handleSubcategoryClick = (to) => {
+    setSelectedSubcategory(to);
   };
 
   if (!isModerator) {
@@ -137,19 +141,17 @@ const SupportLayout = () => {
                       </ListItemIcon>
                     </ListItemButton>
                   </NavLink>
+                  <p>{}</p>
                 </Tooltip>
               </ListItem>
             ))}
         </List>
-        {/* <List className="lg:hidden">
-          <MessageSidebar refetches={refetch} setEmail={setEmail} />
-        </List> */}
       </Drawer>
       <List variant="permanent" open={true}>
         {selectedList === "/support/chat" && (
           <DrawerHeaderWrapper>
             <DrawerHeader
-              className="hover:cursor-pointer "
+              className="hover:cursor-pointer border-r border-gray-300 w-52"
               onClick={() => setOpen(!open)}
             >
               <MdPlayArrow
@@ -168,24 +170,41 @@ const SupportLayout = () => {
             {open &&
               isModerator?.isModerator &&
               [
-                { icon: "👏", name: "UnSeen", to: "unSeen" },
-                { icon: "📊", name: "My Open", to: "myOpen" },
-                { icon: "✅", name: "Solved", to: "solved" },
+                {
+                  icon: "👏",
+                  name: "UnSeen",
+                  to: "unSeen",
+                  length: categoryMessages.length,
+                },
+                {
+                  icon: "📊",
+                  name: "My Open",
+                  to: "myOpen",
+                  length: categoryMessages.length,
+                },
+                {
+                  icon: "✅",
+                  name: "Solved",
+                  to: "solved",
+                  length: categoryMessages.length,
+                },
               ].map((text, index) => (
                 <ListItem
                   key={text}
                   disablePadding
                   sx={{
-                    width: "225px",
+                    width: "full",
                     borderBottom: "1px solid #ccc",
                   }}
                 >
-                  <Link to={text.to}>
+                  <NavLink
+                    onClick={() => handleSubcategoryClick(text.to)}
+                    to={`/support/${text.to}`}
+                    className="w-full"
+                  >
                     <ListItemButton
                       sx={{
                         minHeight: 48,
-                        justifyContent: "initial",
-                        px: 1.5,
                       }}
                     >
                       <ListItemIcon
@@ -196,20 +215,27 @@ const SupportLayout = () => {
                         }}
                       >
                         {text.icon}
+                        {text.length}
                       </ListItemIcon>
                       <ListItemText primary={text.name} />
                     </ListItemButton>
-                  </Link>
+                  </NavLink>
                 </ListItem>
               ))}
-            <List></List>
+            {/* <List>
+              <ModaretorChat
+                subCategory={subCategory}
+                refetches={refetch}
+                setEmail={setEmail}
+              />
+            </List> */}
           </List>
         )}
       </List>
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          {selectedList === "/support/chat" ? (
+          {isAdmin?.isAdmin && selectedList === "/support/chat" ? (
             <AdminMainChat messages={messages} refetch={refetch} />
           ) : (
             <Outlet></Outlet>
