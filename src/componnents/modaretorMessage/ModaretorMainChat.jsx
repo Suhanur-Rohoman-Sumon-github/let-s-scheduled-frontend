@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { format } from "timeago.js";
 import logo from "../../assets/logo.png";
-const AdminMainChat = ({ messages, refetch }) => {
+/* eslint-disable react/prop-types */
+const ModaretorMainChat = ({ messages, refetch }) => {
   const [inputMessage, setInputMessage] = useState("");
 
   const messageData = messages?.data?.messages;
@@ -96,4 +95,4 @@ const AdminMainChat = ({ messages, refetch }) => {
   );
 };
 
-export default AdminMainChat;
+export default ModaretorMainChat;

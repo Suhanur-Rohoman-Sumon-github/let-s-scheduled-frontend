@@ -4,7 +4,7 @@ import useSingleMessage from "../hooks/useSingleMessage";
 import MessageSidebar from "../componnents/AdminMessage/MessageSidebar";
 import AdminMainChat from "../componnents/AdminMessage/AdminMainChat";
 /* eslint-disable react/no-unescaped-entities */
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -53,7 +53,7 @@ const SupportLayout = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: theme.spacing(0, 6),
+    padding: theme.spacing(0, 0),
     ...theme.mixins.toolbar,
   }));
 
@@ -79,13 +79,13 @@ const SupportLayout = () => {
 
   const [selectedList, setSelectedList] = useState("");
 
-  if (!isModerator) {
-    return <Loading data={isModerator} />;
-  }
-
   const handleListClick = (to) => {
     setSelectedList(to);
   };
+
+  if (!isModerator) {
+    return <Loading data={isModerator} />;
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -157,22 +157,20 @@ const SupportLayout = () => {
                   open ? "rotate-90" : ""
                 }`}
               ></MdPlayArrow>
-              <p className="text-center font-cursive uppercase text-xl ml-2">
-                Inbox
-              </p>
+              <p className="font-cursive uppercase text-xl ml-2">Inbox</p>
             </DrawerHeader>
           </DrawerHeaderWrapper>
         )}
         <Divider />
 
         {selectedList === "/support/chat" && (
-          <List>
+          <List className="border-r border-gray-300">
             {open &&
-              isAdmin?.isAdmin &&
+              isModerator?.isModerator &&
               [
-                { icon: "👏", name: "UnSeen", to: "" },
-                { icon: "📊", name: "My Open", to: "" },
-                { icon: "✅", name: "Solved", to: "" },
+                { icon: "👏", name: "UnSeen", to: "unSeen" },
+                { icon: "📊", name: "My Open", to: "myOpen" },
+                { icon: "✅", name: "Solved", to: "solved" },
               ].map((text, index) => (
                 <ListItem
                   key={text}
@@ -182,7 +180,7 @@ const SupportLayout = () => {
                     borderBottom: "1px solid #ccc",
                   }}
                 >
-                  <NavLink to={text.to}>
+                  <Link to={text.to}>
                     <ListItemButton
                       sx={{
                         minHeight: 48,
@@ -201,12 +199,10 @@ const SupportLayout = () => {
                       </ListItemIcon>
                       <ListItemText primary={text.name} />
                     </ListItemButton>
-                  </NavLink>
+                  </Link>
                 </ListItem>
               ))}
-            <List>
-              <MessageSidebar refetches={refetch} setEmail={setEmail} />
-            </List>
+            <List></List>
           </List>
         )}
       </List>

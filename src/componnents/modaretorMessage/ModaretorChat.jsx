@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import useAllMessages from "../../hooks/useAllMessages";
+import useCategoryMessages from "../../hooks/useCategoryMessages";
 
-const MessageSidebar = ({ setEmail, refetches }) => {
-  const { allMessage, refetch } = useAllMessages();
-  console.log(allMessage);
+const ModaretorChat = ({ subCategory, setEmail, refetches }) => {
+  const { categoryMessages, refetch } = useCategoryMessages(subCategory);
+  console.log(categoryMessages);
   const handleSpecificData = (email) => {
     refetch();
     setEmail(email);
@@ -11,7 +11,7 @@ const MessageSidebar = ({ setEmail, refetches }) => {
   };
   return (
     <div className="overflow-y-auto no-scrollbar w-56 mr-5 bg-base-200 h-screen">
-      {allMessage?.data?.map((message) => (
+      {categoryMessages?.data?.map((message) => (
         <div
           onClick={() => handleSpecificData(message?.userEmail)}
           className="flex items-center gap-x-4 border-b-2 p-2 cursor-pointer mt-1 mb-2 hover:bg-gray-200 transition-all duration-200"
@@ -29,4 +29,4 @@ const MessageSidebar = ({ setEmail, refetches }) => {
   );
 };
 
-export default MessageSidebar;
+export default ModaretorChat;

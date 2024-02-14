@@ -36,6 +36,7 @@ import Message from "../pages/DashBoard/admin/messages.jsx/Message";
 import SupportLayout from "../layouts/SupportLayout";
 import SupportHome from "../pages/Support/SupportHome";
 import AdminMainChat from "../componnents/AdminMessage/AdminMainChat";
+import SupportChat from "../pages/Support/SupportChat";
 
 const router = createBrowserRouter([
   {
@@ -181,7 +182,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/support/home",
+        path: "/support",
         element: <SupportHome />,
       },
       {
@@ -189,8 +190,17 @@ const router = createBrowserRouter([
         element: <SupportHome />,
       },
       {
+        path: "/support/home",
+        element: <SupportHome />,
+      },
+      {
+        index: true,
         path: "/support/chat",
-        element: <AdminMainChat></AdminMainChat>,
+        element: <SupportChat />,
+      },
+      {
+        path: "/support/:subCategory",
+        element: <SupportChat />,
       },
     ],
   },

@@ -18,17 +18,11 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const messageId = uuidv4();
   const userName = user?.displayName;
   const userEmail = user?.email;
+
   const photoUrls = user?.photoURL;
 
   const sender = "user";
   const content = inputMessage;
-  const message = {
-    messageId,
-    userName,
-    userEmail,
-    photoUrls,
-    messages: [{ sender, content }],
-  };
 
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const email = storedUser?.userEmail;
@@ -40,16 +34,25 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const photoUrl = messages?.data?.photoUrls;
   refetch();
   const sendMessage = async () => {
-    if (!storedUser) {
+    const subCategory = "unSeen";
+    const message = {
+      messageId,
+      userName,
+      userEmail,
+      photoUrls,
+      subCategory,
+      messages: [{ sender, content }],
+    };
+    if (isUserSaved === undefined) {
       const post = await axios.post(
-        "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
+        "http://localhost:3000/api/v1/message/save-message",
         {
           messages: message,
         }
       );
-    }
-
-    if (isUserSaved || storedUser) {
+      refetch();
+      setInputMessage("");
+    } else {
       const patch = await axios.patch(
         `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
           user ? user?.email : email
@@ -58,10 +61,9 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
           newMessage: newMessages,
         }
       );
+      refetch();
+      setInputMessage("");
     }
-
-    refetch();
-    setInputMessage("");
   };
 
   return (
@@ -135,15 +137,26 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                     className="h-8 w-8 rounded-full mt-2"
                     alt=""
                   />
-                  <p
-                    className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
-                      message.sender === "admin"
-                        ? "text-[#FFF] bg-[#0069ff]"
-                        : "text-[#FFF] bg-[#0b3558]"
-                    }`}
-                  >
-                    {message.content}
-                  </p>
+                  <div>
+                    <p
+                      className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
+                        message.sender === "admin"
+                          ? "text-[#FFF] bg-[#0069ff]"
+                          : "text-[#FFF] bg-[#0b3558]"
+                      }`}
+                    >
+                      {message.content}
+                    </p>
+                    <span
+                      className={`text-xs  shadow-2xl rounded-md border  p-1 my-1 ${
+                        message.sender === "admin"
+                          ? "text-[#0069ff] "
+                          : "text-[#0b3558] "
+                      }`}
+                    >
+                      {format(message.timestamp)}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
