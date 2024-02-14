@@ -45,7 +45,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
     };
     if (isUserSaved === undefined) {
       const post = await axios.post(
-        "http://localhost:3000/api/v1/message/save-message",
+        "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
         {
           messages: message,
         }

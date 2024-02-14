@@ -1,7 +1,7 @@
 const SupportHome = () => {
   return (
     <div>
-      <h1>this is support home</h1>
+      <h1>This is home</h1>
     </div>
   );
 };

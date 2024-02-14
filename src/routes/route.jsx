@@ -190,13 +190,8 @@ const router = createBrowserRouter([
         element: <SupportHome />,
       },
       {
-        path: "/support/home",
-        element: <SupportHome />,
-      },
-      {
-        index: true,
         path: "/support/chat",
-        element: <SupportChat />,
+        element: <SupportHome />,
       },
       {
         path: "/support/:subCategory",
@@ -204,6 +199,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "/confirm-schedule",
     element: <EventDtailsLayouts />,

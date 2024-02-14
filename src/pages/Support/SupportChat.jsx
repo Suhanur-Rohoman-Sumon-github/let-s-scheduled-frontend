@@ -23,7 +23,7 @@ const SupportChat = () => {
             setEmail={setEmail}
           />
         </div>
-        <div className="  w-9/12 ">
+        <div className="w-9/12">
           <ModaretorMainChat messages={messages} refetch={refetch} />
         </div>
       </div>
