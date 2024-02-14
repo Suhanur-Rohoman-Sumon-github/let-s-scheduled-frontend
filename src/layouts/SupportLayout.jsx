@@ -149,7 +149,7 @@ const SupportLayout = () => {
         {selectedList === "/support/chat" && (
           <DrawerHeaderWrapper>
             <DrawerHeader
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer "
               onClick={() => setOpen(!open)}
             >
               <MdPlayArrow
@@ -157,7 +157,7 @@ const SupportLayout = () => {
                   open ? "rotate-90" : ""
                 }`}
               ></MdPlayArrow>
-              <p className="font-cursive uppercase text-xl ml-2">Inbox</p>
+              <p className="font-cursive uppercase text-xl ml-2 ">Inbox</p>
             </DrawerHeader>
           </DrawerHeaderWrapper>
         )}
