@@ -2,29 +2,35 @@ import { MdSupervisorAccount } from "react-icons/md";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { FaArrowAltCircleUp } from "react-icons/fa";
-import { FaArrowCircleDown } from "react-icons/fa";
+
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
-import { MdOutlinePageview } from "react-icons/md";
+
 import { FaSquarePollVertical } from "react-icons/fa6";
 import LiveVisitorChart from "../../componnents/chart/SupportHomeChart/LiveVisitorChart";
 import Feedback from "../../componnents/chart/SupportHomeChart/Feedback";
 import TotalMessage from "../../componnents/chart/SupportHomeChart/TotalMessage";
+import { useMyOpenes, useSolvedes, useUnseens } from "../../utils/CatagoryData";
+import { useEffect } from "react";
+import useAllMessages from "../../hooks/useAllMessages";
+import useAllVistors from "../../hooks/useAllVistors";
 
 const SupportHome = () => {
+  const { unSeen, unSeenRefetch } = useUnseens();
+  const { myOpen, myOpenRefetch } = useMyOpenes();
+  const { solved, solvedRefetch } = useSolvedes();
+  useEffect(() => {
+    unSeenRefetch();
+    myOpenRefetch();
+    solvedRefetch();
+  }, [unSeenRefetch, myOpenRefetch, solvedRefetch]);
+  const { allMessage } = useAllMessages();
+  console.log(allMessage.data.length);
+  const { allVisitors } = useAllVistors();
+
   return (
     <div>
-      <div className="flex gap-4  justify-between">
-        <div className="w-[50%] mr-4  ">
-          <div className=" ">
-            <LiveVisitorChart />
-          </div>
-          <div className=" flex items-center mt-8">
-            <Feedback />
-            <TotalMessage />
-          </div>
-        </div>
-
-        <div className="w-[50%] grid grid-cols-2 gap-4 max-h-44  mt-0">
+      <div className=" ">
+        <div className=" grid grid-cols-3 gap-4 max-h-44  mt-0">
           <div className=" border shadow-md  p-4 text-2xl bg-[#0066FF] text-white">
             <h1 className="flex items-center gap-2 ">
               <MdSupervisorAccount className="" /> visitors
@@ -37,12 +43,9 @@ const SupportHome = () => {
               </p>
             </div>
             <div className="flex items-center gap-4 text-xl my-4">
-              <p>Last 7 days</p>
+              <p>Total visitors</p>
               <p className="flex items-center gap-2 text-green-500">
-                <FaArrowAltCircleUp /> 0
-              </p>
-              <p className="flex items-center gap-2 text-red-500">
-                <FaArrowCircleDown /> 0
+                <FaArrowAltCircleUp /> {allVisitors.length}
               </p>
             </div>
           </div>
@@ -56,12 +59,12 @@ const SupportHome = () => {
                 <div>
                   <p>Answered</p>
                   <p className="flex items-center gap-2 text-green-500">
-                    0 <BsGraphUpArrow /> 0.00%
+                    {myOpen?.length} <BsGraphUpArrow /> 0.00%
                   </p>
                   <div className="mt-4">
                     <p>Missed</p>
                     <p className="flex items-center gap-2 text-red-500">
-                      0 <BsGraphDownArrow /> 0.00%
+                      {unSeen?.length} <BsGraphDownArrow /> 0.00%
                     </p>
                   </div>
                 </div>
@@ -69,42 +72,19 @@ const SupportHome = () => {
                 <div>
                   <p>solved</p>
                   <p className="flex items-center gap-2 text-green-500">
-                    0 <BsGraphUpArrow /> 0.00%
+                    {solved?.length} <BsGraphUpArrow /> 0.00%
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-4 text-xl my-8">
-              <p>Last 7 days</p>
+              <p>Total Message</p>
               <p className="flex items-center gap-2 text-green-500">
-                <FaArrowAltCircleUp /> 0
-              </p>
-              <p className="flex items-center gap-2 text-red-500">
-                <FaArrowCircleDown /> 0
+                <FaArrowAltCircleUp /> {allMessage.data.length}
               </p>
             </div>
           </div>
-          <div className=" border shadow-md  p-4 text-2xl bg-[#0066FF] text-white">
-            <h1 className="flex items-center gap-2 ">
-              <MdOutlinePageview className="" /> Page Views
-            </h1>
-            <p className="text-xl my-4">Today</p>
-            <div className="flex items-center gap-4 text-xl my-4">
-              <p>0</p>
-              <p className="flex items-center gap-2 text-green-500">
-                <BsGraphUpArrow /> 0.00%
-              </p>
-            </div>
-            <div className="flex items-center gap-4 text-xl my-4">
-              <p>Last 7 days</p>
-              <p className="flex items-center gap-2 text-green-500">
-                <FaArrowAltCircleUp /> 0
-              </p>
-              <p className="flex items-center gap-2 text-red-500">
-                <FaArrowCircleDown /> 0
-              </p>
-            </div>
-          </div>
+
           <div className=" border border-white shadow-md bg-[#0066FF] text-white  p-4 text-2xl">
             <h1 className="flex items-center gap-2 ">
               <FaSquarePollVertical className="" />
@@ -123,6 +103,15 @@ const SupportHome = () => {
                 0 <BsGraphDownArrow /> 0.00%
               </p>
             </div>
+          </div>
+        </div>
+        <div className="mt-32 mr-4  ">
+          <div className=" grid grid-cols-2 ">
+            <LiveVisitorChart />
+            <TotalMessage />
+          </div>
+          <div className=" flex items-center mt-8">
+            <Feedback />
           </div>
         </div>
       </div>

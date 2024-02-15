@@ -32,6 +32,8 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const messageData = messages?.data?.messages;
   const isUserSaved = messages?.data?.userEmail;
   const photoUrl = messages?.data?.photoUrls;
+  const name = messages?.data?.userName;
+
   refetch();
   const sendMessage = async () => {
     const subCategory = "unSeen";
@@ -59,7 +61,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
         }`,
         {
           newMessage: newMessages,
-          subcategory: "myOpen",
+          subcategory: messageData.length == undefined ? "unSeen" : "myOpen",
         }
       );
       refetch();
@@ -71,7 +73,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
     <>
       {user ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <ChatModal name={name} isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className=" max-h-[550px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div
@@ -124,7 +126,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
         </div>
       ) : storedUser ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <ChatModal name={name} isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className=" max-h-[550px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div

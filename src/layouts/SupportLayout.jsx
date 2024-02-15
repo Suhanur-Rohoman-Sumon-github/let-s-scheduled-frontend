@@ -26,6 +26,7 @@ import Loading from "../componnents/loading/Loading";
 import { Outlet } from "react-router-dom";
 import useAdmin from "../hooks/useAdmin";
 import useCategoryMessages from "../hooks/useCategoryMessages";
+import { useMyOpenes, useSolvedes, useUnseens } from "../utils/CatagoryData";
 const SupportLayout = () => {
   const { isModerator } = useIsModerator();
   // use loading stat to handle smooth facing
@@ -86,7 +87,14 @@ const SupportLayout = () => {
   const handleSubcategoryClick = (to) => {
     setSelectedSubcategory(to);
   };
-
+  const { unSeen, unSeenRefetch } = useUnseens();
+  const { myOpen, myOpenRefetch } = useMyOpenes();
+  const { solved, solvedRefetch } = useSolvedes();
+  useEffect(() => {
+    unSeenRefetch();
+    myOpenRefetch();
+    solvedRefetch();
+  }, [unSeenRefetch, myOpenRefetch, solvedRefetch]);
   if (!isModerator) {
     return <Loading data={isModerator} />;
   }
@@ -174,19 +182,19 @@ const SupportLayout = () => {
                   icon: "👏",
                   name: "UnSeen",
                   to: "unSeen",
-                  length: categoryMessages.length,
+                  length: unSeen.length,
                 },
                 {
                   icon: "📊",
                   name: "My Open",
                   to: "myOpen",
-                  length: categoryMessages.length,
+                  length: myOpen.length,
                 },
                 {
                   icon: "✅",
                   name: "Solved",
                   to: "solved",
-                  length: categoryMessages.length,
+                  length: solved.length,
                 },
               ].map((text, index) => (
                 <ListItem
@@ -215,9 +223,9 @@ const SupportLayout = () => {
                         }}
                       >
                         {text.icon}
-                        {text.length}
                       </ListItemIcon>
                       <ListItemText primary={text.name} />
+                      <div className="badge badge-accent">{text.length}</div>
                     </ListItemButton>
                   </NavLink>
                 </ListItem>

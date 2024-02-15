@@ -1,12 +1,34 @@
 import { useState, useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
+import {
+  useMyOpenes,
+  useSolvedes,
+  useUnseens,
+} from "../../../utils/CatagoryData";
 const TotalMessage = () => {
+  const [unSeenmessagedata, setunSeenmessagedata] = useState();
+  const [myOpenmessagedata, setmyOpenmessagedata] = useState();
+  const [solvedmessagedata, setsolvedmessagedata] = useState();
+  const { unSeen, unSeenRefetch } = useUnseens();
+  const { myOpen, myOpenRefetch } = useMyOpenes();
+  const { solved, solvedRefetch } = useSolvedes();
+  useEffect(() => {
+    unSeenRefetch(), myOpenRefetch(), solvedRefetch();
+    setunSeenmessagedata(unSeen),
+      setmyOpenmessagedata(myOpen),
+      setsolvedmessagedata(solved);
+  }, [
+    unSeen,
+    myOpen,
+    solved,
+    unSeenRefetch,
+    myOpenRefetch,
+    solvedRefetch,
+    setunSeenmessagedata,
+    setmyOpenmessagedata,
+    setsolvedmessagedata,
+  ]);
   const chartRef = useRef(null);
-  const [messagedata, setmessageData] = useState({
-    unSeen: 14,
-    myOpen: 25,
-    solved: 10,
-  });
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
@@ -19,7 +41,11 @@ const TotalMessage = () => {
         datasets: [
           {
             label: "messages",
-            data: [messagedata.unSeen, messagedata.myOpen, messagedata.solved],
+            data: [
+              unSeenmessagedata?.length,
+              myOpenmessagedata?.length,
+              solvedmessagedata?.length,
+            ],
             backgroundColor: ["rgba(75, 192, 192, 1)", "#0066FF", "#0b3558"],
             borderColor: [
               "rgba(75, 192, 192, 1)",
@@ -48,7 +74,7 @@ const TotalMessage = () => {
     return () => {
       messageChart.destroy(); // Cleanup chart to prevent memory leaks
     };
-  }, [messagedata]);
+  }, [solvedmessagedata, myOpenmessagedata, unSeenmessagedata]);
   return (
     <div className="">
       <canvas ref={chartRef} width="400" height="400"></canvas>

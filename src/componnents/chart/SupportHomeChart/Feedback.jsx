@@ -46,7 +46,7 @@ const Feedback = () => {
     };
   }, [feedbackData]);
   return (
-    <div className="">
+    <div className="w-50%">
       <canvas ref={chartRef} width="400" height="400"></canvas>
     </div>
   );

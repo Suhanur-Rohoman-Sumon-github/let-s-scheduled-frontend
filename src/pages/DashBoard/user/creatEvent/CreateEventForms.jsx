@@ -38,12 +38,9 @@ const CreateEventForms = () => {
       userName,
     };
     axios
-      .post(
-        "https://lets-sheduleit-backend.vercel.app/api/v1/events/creat-event",
-        {
-          event: events,
-        }
-      )
+      .post("http://localhost:3000/api/v1/events/creat-event", {
+        event: events,
+      })
       .then((data) => {
         console.log(data);
         if (data.data.success) {

@@ -15,7 +15,6 @@ const NonUserChatModel = ({ isOpen, setIsOpen }) => {
     console.log(data);
     const photoUrls = "https://i.ibb.co/NWsYPZM/download.jpg";
     const { userName, userEmail } = data;
-
     const message = {
       messageId,
       userName,
@@ -23,8 +22,9 @@ const NonUserChatModel = ({ isOpen, setIsOpen }) => {
       photoUrls,
       subCategory,
     };
+    console.log(message);
     const post = await axios.post(
-      "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
+      "http://localhost:3000/api/v1/message/save-message",
       {
         messages: message,
       }

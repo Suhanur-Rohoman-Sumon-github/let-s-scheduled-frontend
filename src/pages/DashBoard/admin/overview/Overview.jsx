@@ -2,7 +2,6 @@ import useAllUsers from "../../../../hooks/useAllUsers";
 import useAllSchedule from "../../../../hooks/useAllSchedule";
 import {
   FaArrowAltCircleUp,
-  FaArrowCircleDown,
   FaCalendarAlt,
   FaChessKing,
   FaMoneyCheckAlt,
@@ -19,7 +18,6 @@ import { BsGraphUpArrow, BsChatRightDots } from "react-icons/bs";
 import {
   LiveOverviewChart,
   TotalSalesChart,
-  UserSignupChart,
 } from "../../../../componnents/chart/AdminDashBoardChart/AllChart";
 import useAllMessages from "../../../../hooks/useAllMessages";
 import useAllVistors from "../../../../hooks/useAllVistors";
@@ -30,7 +28,6 @@ const Overview = () => {
   const { allProUser } = useAllProUser();
   const { allPayments } = useAllPayments();
   const { allMessage } = useAllMessages();
-  console.log(allMessage);
   const { allVisitors } = useAllVistors();
 
   const totalAmount = allPayments?.reduce(
