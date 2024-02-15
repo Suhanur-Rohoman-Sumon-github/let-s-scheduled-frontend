@@ -278,9 +278,7 @@ const DashboardLayouts = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <div className="absolute right-0">
-          <DasboardNavbar />
-        </div>
+        <div className="absolute right-0"></div>
         <Typography>
           <Outlet></Outlet>
         </Typography>

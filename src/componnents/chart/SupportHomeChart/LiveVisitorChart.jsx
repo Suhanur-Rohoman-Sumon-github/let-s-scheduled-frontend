@@ -49,7 +49,7 @@ const LiveVisitorChart = () => {
             50, 60, 70, 65, 75, 80, 90, 85, 95, 100, 120, 110, 105, 115, 130,
             125, 135, 140, 150, 155, 160, 165, 170, 180, 175, 185, 190, 200,
             195, 205, 210,
-          ], // Sample data points for pageviews
+          ],
           borderColor: "rgba(255, 99, 132, 1)",
           borderWidth: 1,
           fill: false,
@@ -60,7 +60,7 @@ const LiveVisitorChart = () => {
             30, 40, 50, 45, 55, 60, 70, 65, 75, 80, 100, 90, 85, 95, 110, 105,
             115, 120, 130, 135, 140, 145, 150, 160, 155, 165, 170, 175, 180,
             190, 185,
-          ], // Sample data points for visitors
+          ],
           borderColor: "rgba(54, 162, 235, 1)",
           borderWidth: 1,
           fill: false,
@@ -71,7 +71,7 @@ const LiveVisitorChart = () => {
             20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100,
             105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165,
             170,
-          ], // Sample data points for chats
+          ],
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
           fill: false,
@@ -100,9 +100,9 @@ const LiveVisitorChart = () => {
 
   return (
     <div>
-      <div>
+      <div className=" mr-4 ">
         <h2>Website Visitors Chart for Current Month</h2>
-        <canvas ref={chartRef} width="800" height="400"></canvas>
+        <canvas ref={chartRef} height={400} width={600}></canvas>
       </div>
     </div>
   );

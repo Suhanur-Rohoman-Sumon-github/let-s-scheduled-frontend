@@ -52,17 +52,24 @@ const SupportHome = () => {
             </h1>
 
             <div className="items-center gap-4 text-xl my-4">
-              <div className="flex items-center justify-between">
+              <div className="flex gap-4 justify-between">
                 <div>
                   <p>Answered</p>
                   <p className="flex items-center gap-2 text-green-500">
                     0 <BsGraphUpArrow /> 0.00%
                   </p>
+                  <div className="mt-4">
+                    <p>Missed</p>
+                    <p className="flex items-center gap-2 text-red-500">
+                      0 <BsGraphDownArrow /> 0.00%
+                    </p>
+                  </div>
                 </div>
+
                 <div>
-                  <p>Missed</p>
-                  <p className="flex items-center gap-2 text-red-500">
-                    0 <BsGraphDownArrow /> 0.00%
+                  <p>solved</p>
+                  <p className="flex items-center gap-2 text-green-500">
+                    0 <BsGraphUpArrow /> 0.00%
                   </p>
                 </div>
               </div>

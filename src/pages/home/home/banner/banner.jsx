@@ -4,6 +4,8 @@ import HomePageDegain from "../../../../componnents/HomePageDegain";
 import backgroundImage from "../../../../assets/new-clouds-2.svg";
 import HomePageDegainTwo from "../../../../componnents/HomePageDegainTwo";
 import useContexts from "../../../../hooks/useContexts";
+import { useEffect } from "react";
+import axios from "axios";
 const Banner = () => {
   const { user } = useContexts();
   // call this function in style property for looking simple. Line No: 19
@@ -14,6 +16,15 @@ const Banner = () => {
     height: "100%",
     width: "100%",
   };
+
+  // handle save user visitors in our database
+  useEffect(() => {
+    const saveUserVisit = async () => {
+      const response = await axios.get("http://localhost:3000/api/v1/visitor");
+    };
+
+    saveUserVisit();
+  }, []);
   return (
     <div
       style={backgroundStyles}
