@@ -10,7 +10,7 @@ const Message = () => {
   useEffect(() => {
     refetch();
   }, [email, refetch]);
-
+  console.log(messages);
   return (
     <div className="overflow-x-hidden">
       <div className=" flex gap-4 mt-4 ">

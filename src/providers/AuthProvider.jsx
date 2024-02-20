@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
   };
 
   // handle sing in withe google
-  const handleGoogleSinin = () => {
+  const handleGoogleSinin = async () => {
     return signInWithPopup(auth, provider);
   };
 

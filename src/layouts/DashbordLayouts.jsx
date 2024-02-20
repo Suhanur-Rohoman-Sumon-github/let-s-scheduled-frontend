@@ -1,98 +1,265 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { FaAlignJustify, FaPlus } from "react-icons/fa";
+/* eslint-disable react/no-unescaped-entities */
+import { NavLink, Outlet } from "react-router-dom";
 import DasboardNavbar from "../pages/shered/navbar/DasboardNavbar";
-import { adminDashBoardNavData, userDashBoardNavData } from "../data/Data";
+import {
+  adminDashBoardNavData,
+  moderatorDashBoardNavData,
+  userDashBoardNavData,
+} from "../data/Data";
 import useAdmin from "../hooks/useAdmin";
 import Loading from "../componnents/loading/Loading";
-import { FaChartBar } from "react-icons/fa";
-import Chat from "../pages/DashBoard/user/chat/Chat";
-
+import * as React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import useIsModerator from "../hooks/useIsModerator";
+import useIsUser from "../hooks/useIsUser";
 const DashboardLayouts = () => {
   // received isAdmin from src/hooks/useAdmin file
   const { isAdmin } = useAdmin();
   // use loading stat to handle smooth facing
   <Loading data={isAdmin} />;
+  const { isModerator } = useIsModerator();
+  // use loading stat to handle smooth facing
+  <Loading data={isModerator} />;
+  const { isUser } = useIsUser();
+
+  // use loading stat to handle smooth facing
+  <Loading data={isUser} />;
+  const drawerWidth = 240;
+
+  const openedMixin = (theme) => ({
+    width: drawerWidth,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+    transitionDelay: "0.5s", // Adjust the delay as needed
+  });
+
+  const closedMixin = (theme) => ({
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+    transitionDelay: "0.5s", // Adjust the delay as needed
+  });
+
+  const DrawerHeader = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  }));
+
+  const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    }),
+  }));
+
+  const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  }));
+
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
   return (
-    <div className="drawer lg:drawer-open ">
-      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content  ">
-        <div className="flex items-center justify-between pl-4 pt-2">
-          <label htmlFor="my-drawer-2" className=" drawer-button lg:hidden">
-            <FaAlignJustify className="text-2xl" />
-          </label>
-
-          <div className="lg:ml-auto 2xl:mr-10">
-            {/* use DasboardNavbar component to make our code more cleaner */}
-            <DasboardNavbar />
-          </div>
-        </div>
-        {/* <div className="w-full"> */}
-        <div className="px-12">
-          {/* outlet is reeved all the children path have in the /dashboard route  */}
-          {!isAdmin?.isAdmin && <Chat />}
-          <Outlet />
-        </div>
-        {/* </div> */}
-      </div>
-
-      <div className="drawer-side">
-        <label
-          htmlFor="my-drawer-2"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <div className="menu p-4 w-64 min-h-full bg-base-200 text-base-content">
-          <div className="flex justify-between items-center mb-12">
-            <h1 className="text-center font-cursive uppercase text-2xl">
-              <Link to={"/"}>lets schedule</Link>
-            </h1>
-          </div>
-          {isAdmin?.isAdmin ? (
-            <Link to={"/dashboard/overview"}>
-              <button className="btn-primary w-full   flex items-center justify-center gap-2">
-                <FaChartBar /> Overview
-              </button>
-            </Link>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          {theme.direction === "rtl" ? (
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronRightIcon />
+            </IconButton>
           ) : (
-            <button
-              className="btn-primary   flex items-center justify-center"
-              to={"/create-event"}
-            >
-              <FaPlus /> create event
-            </button>
+            <div className="flex items-center">
+              <NavLink
+                to="/"
+                className="text-center font-cursive uppercase text-xl p-4"
+              >
+                Let's Schedule
+              </NavLink>
+              <IconButton onClick={handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
           )}
-          <ul>
-            {isAdmin?.isAdmin
-              ? adminDashBoardNavData.map((userData) => (
-                  <li key={userData.name} className="mt-4">
-                    <NavLink
-                      to={userData.to}
-                      className={({ isActive }) =>
-                        isActive ? "text-[#0069ff]" : "nothing"
-                      }
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {isAdmin?.isAdmin &&
+            adminDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
                     >
-                      {userData.icon}
-                      {userData.name}
-                    </NavLink>
-                  </li>
-                ))
-              : userDashBoardNavData.map((userData) => (
-                  <li key={userData.name} className="mt-4">
-                    <NavLink
-                      to={userData.to}
-                      className={({ isActive }) =>
-                        isActive ? "text-[#0069ff]" : "nothing"
-                      }
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
+          {isUser?.isUser &&
+            userDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
                     >
-                      {userData.icon}
-                      {userData.name}
-                    </NavLink>
-                  </li>
-                ))}
-          </ul>
-        </div>
-      </div>
-    </div>
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
+          {isModerator?.isModerator &&
+            moderatorDashBoardNavData.map((text, index) => (
+              <ListItem key={text} disablePadding sx={{ display: "block" }}>
+                <NavLink to={text.to}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                      transition: "opacity 0.5s ease",
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {text.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={text.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </NavLink>
+              </ListItem>
+            ))}
+        </List>
+        <Divider />
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+        <div className="absolute right-0"></div>
+        <Typography>
+          <Outlet></Outlet>
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 

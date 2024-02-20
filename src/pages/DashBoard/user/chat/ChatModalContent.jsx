@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useSingleMessage from "../../../../hooks/useSingleMessage";
 import axios from "axios";
+import { format } from "timeago.js";
 import useContexts from "../../../../hooks/useContexts";
 import { Link } from "react-router-dom";
 import NonUserChatModel from "../../../../componnents/modal/chat/NonUserChatModel";
@@ -17,17 +18,11 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const messageId = uuidv4();
   const userName = user?.displayName;
   const userEmail = user?.email;
+
   const photoUrls = user?.photoURL;
 
   const sender = "user";
   const content = inputMessage;
-  const message = {
-    messageId,
-    userName,
-    userEmail,
-    photoUrls,
-    messages: [{ sender, content }],
-  };
 
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const email = storedUser?.userEmail;
@@ -37,37 +32,48 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
   const messageData = messages?.data?.messages;
   const isUserSaved = messages?.data?.userEmail;
   const photoUrl = messages?.data?.photoUrls;
+  const name = messages?.data?.userName;
+
   refetch();
   const sendMessage = async () => {
-    if (!storedUser) {
+    const subCategory = "unSeen";
+    const message = {
+      messageId,
+      userName,
+      userEmail,
+      photoUrls,
+      subCategory,
+      messages: [{ sender, content }],
+    };
+    if (isUserSaved === undefined) {
       const post = await axios.post(
         "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
         {
           messages: message,
         }
       );
-    }
-
-    if (isUserSaved || storedUser) {
+      refetch();
+      setInputMessage("");
+    } else {
       const patch = await axios.patch(
         `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
           user ? user?.email : email
         }`,
         {
           newMessage: newMessages,
+          subcategory: messageData.length == undefined ? "unSeen" : "myOpen",
         }
       );
+      refetch();
+      setInputMessage("");
     }
-
-    refetch();
-    setInputMessage("");
   };
 
   return (
     <>
       {user ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <ChatModal name={name} isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className=" max-h-[550px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div
@@ -81,15 +87,26 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                     className="h-8 w-8 rounded-full mt-2"
                     alt=""
                   />
-                  <p
-                    className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
-                      message.sender === "admin"
-                        ? "text-[#FFF] bg-[#0069ff]"
-                        : "text-[#FFF] bg-[#0b3558]"
-                    }`}
-                  >
-                    {message.content}
-                  </p>
+                  <div>
+                    <p
+                      className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
+                        message.sender === "admin"
+                          ? "text-[#FFF] bg-[#0069ff]"
+                          : "text-[#FFF] bg-[#0b3558]"
+                      }`}
+                    >
+                      {message.content}
+                    </p>
+                    <span
+                      className={`text-xs  shadow-2xl rounded-md border  p-1 my-1 ${
+                        message.sender === "admin"
+                          ? "text-[#0069ff] "
+                          : "text-[#0b3558] "
+                      }`}
+                    >
+                      {format(message.timestamp)}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -109,7 +126,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
         </div>
       ) : storedUser ? (
         <div className=" relative ">
-          <ChatModal isOpen={isOpen} setIsOpen={setIsOpen}>
+          <ChatModal name={name} isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className=" max-h-[550px] overflow-y-auto">
               {messageData?.map((message, index) => (
                 <div
@@ -123,15 +140,26 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
                     className="h-8 w-8 rounded-full mt-2"
                     alt=""
                   />
-                  <p
-                    className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
-                      message.sender === "admin"
-                        ? "text-[#FFF] bg-[#0069ff]"
-                        : "text-[#FFF] bg-[#0b3558]"
-                    }`}
-                  >
-                    {message.content}
-                  </p>
+                  <div>
+                    <p
+                      className={`text-xl max-w-[270px] mb-2 shadow-2xl rounded-md py-2 px-4 ${
+                        message.sender === "admin"
+                          ? "text-[#FFF] bg-[#0069ff]"
+                          : "text-[#FFF] bg-[#0b3558]"
+                      }`}
+                    >
+                      {message.content}
+                    </p>
+                    <span
+                      className={`text-xs  shadow-2xl rounded-md border  p-1 my-1 ${
+                        message.sender === "admin"
+                          ? "text-[#0069ff] "
+                          : "text-[#0b3558] "
+                      }`}
+                    >
+                      {format(message.timestamp)}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

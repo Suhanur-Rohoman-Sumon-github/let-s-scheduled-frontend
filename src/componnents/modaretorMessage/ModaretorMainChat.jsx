@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import { format } from "timeago.js";
 import logo from "../../assets/logo.png";
-const AdminMainChat = ({ messages, refetch }) => {
+/* eslint-disable react/prop-types */
+const ModaretorMainChat = ({ messages, refetch }) => {
   const [inputMessage, setInputMessage] = useState("");
 
   const messageData = messages?.data?.messages;
@@ -19,23 +18,40 @@ const AdminMainChat = ({ messages, refetch }) => {
       `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${email}`,
       {
         newMessage: newMessages,
+        subcategory: "myOpen",
       }
     );
 
     refetch();
     setInputMessage("");
   };
+  const handleMakeSolved = async () => {
+    const patch = await axios.patch(
+      `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${email}`,
+      {
+        subcategory: "solved",
+      }
+    );
+
+    refetch();
+  };
   return (
     <div>
-      <div className="flex gap-x-3 mb-10 shadow-sm shadow-gray-200 p-5">
-        <img
-          src={messages?.data?.photoUrls}
-          className="h-10 w-10 rounded-full ml-4"
-          alt=""
-        />
-        <h1 className="text-xl font-bold text-gray-500 ">
-          {messages?.data?.userName}
-        </h1>
+      <div className="flex gap-x-3 mb-10 shadow-sm shadow-gray-200 p-5 justify-between">
+        <div className="flex items-center gap-4">
+          <img
+            src={messages?.data?.photoUrls}
+            className="h-10 w-10 rounded-full ml-4"
+            alt=""
+          />
+
+          <h1 className="text-xl font-bold text-gray-500 ">
+            {messages?.data?.userName}
+          </h1>
+        </div>
+        <button onClick={handleMakeSolved} className="btn-primary">
+          make as a solved
+        </button>
       </div>
       <div>
         <div className=" max-h-[450px] overflow-y-auto w-9/12 mx-auto">
@@ -96,4 +112,4 @@ const AdminMainChat = ({ messages, refetch }) => {
   );
 };
 
-export default AdminMainChat;
+export default ModaretorMainChat;

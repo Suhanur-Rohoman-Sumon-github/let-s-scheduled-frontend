@@ -51,7 +51,7 @@ const AllEvents = () => {
                 <th>Delete event</th>
               </tr>
             </thead>
-            <tbody className="">
+            <tbody>
               {allEvents?.map((events, index) => (
                 <tr className="text-secondary" key={events._id}>
                   <td>{index + 1}</td>

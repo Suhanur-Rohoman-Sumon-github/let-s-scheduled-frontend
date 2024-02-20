@@ -11,16 +11,18 @@ const NonUserChatModel = ({ isOpen, setIsOpen }) => {
   } = useForm();
   const messageId = uuidv4();
   const onSubmit = async (data) => {
+    const subCategory = "unSeen";
     console.log(data);
     const photoUrls = "https://i.ibb.co/NWsYPZM/download.jpg";
     const { userName, userEmail } = data;
-
     const message = {
       messageId,
       userName,
       userEmail,
       photoUrls,
+      subCategory,
     };
+    console.log(message);
     const post = await axios.post(
       "https://lets-sheduleit-backend.vercel.app/api/v1/message/save-message",
       {

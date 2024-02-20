@@ -11,7 +11,7 @@ const CreateEvent = () => {
   const { user } = useContexts();
   const [isOpen, setIsOpen] = useState(false);
   const { isBans } = useIsBan();
-  console.log(isBans);
+
   const handleCreatEvent = () => {
     toast.error(
       "you are not able to creat new event your account is resticted please contact customer support"

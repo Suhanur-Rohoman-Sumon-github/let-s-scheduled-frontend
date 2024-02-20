@@ -1,7 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import { FaMinus } from "react-icons/fa";
+import { FaHandsClapping } from "react-icons/fa6";
+import useContexts from "../../../hooks/useContexts";
 
-const ChatModal = ({ isOpen, setIsOpen, children }) => {
+const ChatModal = ({ name, isOpen, setIsOpen, children }) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const email = storedUser?.userEmail;
+  const { user } = useContexts();
   function closeModal() {
     setIsOpen(false);
   }
@@ -35,32 +41,35 @@ const ChatModal = ({ isOpen, setIsOpen, children }) => {
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <div className="fixed inset-y-0 right-0 max-w-md w-full flex justify-end mr-8 my-4 ">
-              <div className="bg-white border border-[#0069ff] w-full max-w-md  rounded-2xl">
-                <div className="flex justify-end">
-                  <button
-                    className="p-2 text-gray-500 hover:text-gray-700"
-                    onClick={closeModal}
-                  >
-                    <span className="sr-only">Close</span>
-                    <svg
-                      className="h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+            <div className="fixed inset-y-0 right-0 max-w-md w-full flex justify-end mr-8  my-4 px-4">
+              <div className="bg-white border border-[#0069ff] w-full max-w-md  rounded-2xl ">
+                <div className=" bg-[#0066FF] p-4">
+                  <div className="flex justify-end">
+                    <button
+                      className="p-2 text-white hover:text-gray-700"
+                      onClick={closeModal}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                      <FaMinus />
+                    </button>
+                  </div>
+                  <div className="pl-6">
+                    <h1 className="text-white text-4xl flex gap-4 font-bold capitalize">
+                      <FaHandsClapping className="text-yellow-500" />
+                      {` hi ${
+                        user
+                          ? user?.displayName.split(" ")[0]
+                          : email
+                          ? name?.split(" ")[0]
+                          : "please let me know who you"
+                      } `}
+                    </h1>
+                    <p className="text-white text-xl ml-14 mt-4">
+                      Welcome to Support! team <br /> We’re ready to help you{" "}
+                    </p>
+                  </div>
                 </div>
 
-                <div className=" ">{children}</div>
+                <div className=" mt-4">{children}</div>
               </div>
             </div>
           </Transition.Child>
