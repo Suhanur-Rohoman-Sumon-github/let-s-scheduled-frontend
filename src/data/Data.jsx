@@ -130,9 +130,9 @@ export const adminDashBoardNavData = [
     to: "/dashboard/all-events",
   },
   {
-    icon: <FaRocketchat />,
-    name: "Messages",
-    to: "/dashboard/messages",
+    icon: <MdSupportAgent />,
+    name: "Support",
+    to: "/support",
   },
 ];
 export const moderatorDashBoardNavData = [

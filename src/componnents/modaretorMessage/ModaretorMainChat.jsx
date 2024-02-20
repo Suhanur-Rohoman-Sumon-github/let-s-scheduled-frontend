@@ -15,7 +15,7 @@ const ModaretorMainChat = ({ messages, refetch }) => {
   const newMessages = [{ sender, content }];
   const sendMessage = async () => {
     const patch = await axios.patch(
-      `http://localhost:3000/api/v1/message/update-message?emails=${email}`,
+      `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${email}`,
       {
         newMessage: newMessages,
         subcategory: "myOpen",
@@ -27,7 +27,7 @@ const ModaretorMainChat = ({ messages, refetch }) => {
   };
   const handleMakeSolved = async () => {
     const patch = await axios.patch(
-      `http://localhost:3000/api/v1/message/update-message?emails=${email}`,
+      `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${email}`,
       {
         subcategory: "solved",
       }

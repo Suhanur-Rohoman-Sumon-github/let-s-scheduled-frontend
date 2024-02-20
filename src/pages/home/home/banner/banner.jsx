@@ -20,7 +20,9 @@ const Banner = () => {
   // handle save user visitors in our database
   useEffect(() => {
     const saveUserVisit = async () => {
-      const response = await axios.get("http://localhost:3000/api/v1/visitor");
+      const response = await axios.get(
+        "https://lets-sheduleit-backend.vercel.app/api/v1/visitor"
+      );
     };
 
     saveUserVisit();

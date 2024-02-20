@@ -6,7 +6,7 @@ const useAllVistors = () => {
     queryKey: ["all-visitors"],
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/visitor/all-visitors`
+        `https://lets-sheduleit-backend.vercel.app/api/v1/visitor/all-visitors`
       );
       return res.data.data;
     },

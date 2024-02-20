@@ -1,9 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import useIsModerator from "../hooks/useIsModerator";
-import Loading from "../componnents/loading/Loading";
-import { NavLink } from "react-router-dom";
 
 const useUnseens = (transact) => {
   const { data: unSeen = [], refetch: unSeenRefetch } = useQuery({

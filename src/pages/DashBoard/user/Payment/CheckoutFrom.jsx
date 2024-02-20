@@ -89,7 +89,7 @@ const CheckoutForm = ({ price, card }) => {
 
       // save the payment data in the database
       const res = await axios.post(
-        "http://localhost:3000/api/v1/payments/save-payment-history",
+        "https://lets-sheduleit-backend.vercel.app/api/v1/payments/save-payment-history",
         { paymentsData: payments }
       );
       // if the payment datails is saved successfully in the database then change the current plane to user selected plane

@@ -32,7 +32,7 @@ const SupportLayout = () => {
   // use loading stat to handle smooth facing
   <Loading data={isModerator} />;
   const [email, setEmail] = useState("");
-
+  const { messages } = useSingleMessage(email);
   const { isAdmin } = useAdmin();
 
   const drawerWidth = 60;
@@ -101,10 +101,10 @@ const SupportLayout = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Drawer variant="permanent" open={true}>
-        <List>
-          {isModerator?.isModerator &&
-            [
+      {isModerator?.isModerator && (
+        <Drawer variant="permanent" open={true}>
+          <List>
+            {[
               { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
               { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
               {
@@ -153,66 +153,43 @@ const SupportLayout = () => {
                 </Tooltip>
               </ListItem>
             ))}
-        </List>
-      </Drawer>
-      <List variant="permanent" open={true}>
-        {selectedList === "/support/chat" && (
-          <DrawerHeaderWrapper>
-            <DrawerHeader
-              className="hover:cursor-pointer border-r border-gray-300 w-52"
-              onClick={() => setOpen(!open)}
-            >
-              <MdPlayArrow
-                className={`text-xl transition-all duration-200 ${
-                  open ? "rotate-90" : ""
-                }`}
-              ></MdPlayArrow>
-              <p className="font-cursive uppercase text-xl ml-2 ">Inbox</p>
-            </DrawerHeader>
-          </DrawerHeaderWrapper>
-        )}
-        <Divider />
-
-        {selectedList === "/support/chat" && (
-          <List className="border-r border-gray-300">
-            {open &&
-              isModerator?.isModerator &&
-              [
-                {
-                  icon: "👏",
-                  name: "UnSeen",
-                  to: "unSeen",
-                  length: unSeen.length,
-                },
-                {
-                  icon: "📊",
-                  name: "My Open",
-                  to: "myOpen",
-                  length: myOpen.length,
-                },
-                {
-                  icon: "✅",
-                  name: "Solved",
-                  to: "solved",
-                  length: solved.length,
-                },
-              ].map((text, index) => (
-                <ListItem
-                  key={text}
-                  disablePadding
-                  sx={{
-                    width: "full",
-                    borderBottom: "1px solid #ccc",
-                  }}
-                >
+          </List>
+        </Drawer>
+      )}
+      {isAdmin?.isAdmin && (
+        <Drawer variant="permanent" open={true}>
+          <List>
+            {[
+              { icon: <MdHome />, to: "/support/home", tooltip: "Home" },
+              { icon: <MdMoveToInbox />, to: "/support/chat", tooltip: "Chat" },
+              {
+                icon: <IoMdPeople />,
+                to: "/support/people",
+                tooltip: "People",
+              },
+              { icon: <MdOutlineMail />, to: "/support/spam", tooltip: "Spam" },
+              {
+                icon: <SiChatbot />,
+                to: "/support/AiChat",
+                tooltip: "AI Chat",
+              },
+            ].map((text) => (
+              <ListItem key={text.to} disablePadding sx={{ display: "block" }}>
+                <Tooltip title={text.tooltip} placement="right">
                   <NavLink
-                    onClick={() => handleSubcategoryClick(text.to)}
-                    to={`/support/${text.to}`}
-                    className="w-full"
+                    to={text.to}
+                    className={`bg-[#0066FF]`}
+                    onClick={() => handleListClick(text.to)}
                   >
                     <ListItemButton
                       sx={{
-                        minHeight: 48,
+                        minHeight: 52,
+                        justifyContent: "initial",
+                        px: 2.5,
+                        transition: "opacity 0.5s ease",
+                        backgroundColor:
+                          selectedList === text.to ? "#0066FF " : "",
+                        text: selectedList === text.to ? "#FFF " : "",
                       }}
                     >
                       <ListItemIcon
@@ -220,34 +197,198 @@ const SupportLayout = () => {
                           minWidth: 0,
                           mr: 3,
                           justifyContent: "center",
+                          fontSize: "24px",
                         }}
                       >
                         {text.icon}
                       </ListItemIcon>
-                      <ListItemText primary={text.name} />
-                      <div className="badge badge-accent">{text.length}</div>
                     </ListItemButton>
                   </NavLink>
-                </ListItem>
-              ))}
-            {/* <List>
+                  <p>{}</p>
+                </Tooltip>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+      )}
+      {isModerator?.isModerator && (
+        <List variant="permanent" open={true}>
+          {selectedList === "/support/chat" && (
+            <DrawerHeaderWrapper>
+              <DrawerHeader
+                className="hover:cursor-pointer border-r border-gray-300 w-52"
+                onClick={() => setOpen(!open)}
+              >
+                <MdPlayArrow
+                  className={`text-xl transition-all duration-200 ${
+                    open ? "rotate-90" : ""
+                  }`}
+                ></MdPlayArrow>
+                <p className="font-cursive uppercase text-xl ml-2 ">Inbox</p>
+              </DrawerHeader>
+            </DrawerHeaderWrapper>
+          )}
+          <Divider />
+
+          {selectedList === "/support/chat" && (
+            <List className="border-r border-gray-300">
+              {open &&
+                isModerator?.isModerator &&
+                [
+                  {
+                    icon: "👏",
+                    name: "UnSeen",
+                    to: "unSeen",
+                    length: unSeen.length,
+                  },
+                  {
+                    icon: "📊",
+                    name: "My Open",
+                    to: "myOpen",
+                    length: myOpen.length,
+                  },
+                  {
+                    icon: "✅",
+                    name: "Solved",
+                    to: "solved",
+                    length: solved.length,
+                  },
+                ].map((text, index) => (
+                  <ListItem
+                    key={text}
+                    disablePadding
+                    sx={{
+                      width: "full",
+                      borderBottom: "1px solid #ccc",
+                    }}
+                  >
+                    <NavLink
+                      onClick={() => handleSubcategoryClick(text.to)}
+                      to={`/support/${text.to}`}
+                      className="w-full"
+                    >
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: 3,
+                            justifyContent: "center",
+                          }}
+                        >
+                          {text.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text.name} />
+                        <div className="badge badge-accent">{text.length}</div>
+                      </ListItemButton>
+                    </NavLink>
+                  </ListItem>
+                ))}
+              {/* <List>
               <ModaretorChat
                 subCategory={subCategory}
                 refetches={refetch}
                 setEmail={setEmail}
               />
             </List> */}
-          </List>
-        )}
-      </List>
+            </List>
+          )}
+        </List>
+      )}
+      {isAdmin?.isAdmin && (
+        <List variant="permanent" open={true}>
+          {selectedList === "/support/chat" && (
+            <DrawerHeaderWrapper>
+              <DrawerHeader
+                className="hover:cursor-pointer border-r border-gray-300 w-52"
+                onClick={() => setOpen(!open)}
+              >
+                <MdPlayArrow
+                  className={`text-xl transition-all duration-200 ${
+                    open ? "rotate-90" : ""
+                  }`}
+                ></MdPlayArrow>
+                <p className="font-cursive uppercase text-xl ml-2 ">Inbox</p>
+              </DrawerHeader>
+            </DrawerHeaderWrapper>
+          )}
+          <Divider />
+
+          {selectedList === "/support/chat" && (
+            <List className="border-r border-gray-300">
+              {open &&
+                isAdmin?.isAdmin &&
+                [
+                  {
+                    icon: "👏",
+                    name: "UnSeen",
+                    to: "unSeen",
+                    length: unSeen.length,
+                  },
+                  {
+                    icon: "📊",
+                    name: "My Open",
+                    to: "myOpen",
+                    length: myOpen.length,
+                  },
+                  {
+                    icon: "✅",
+                    name: "Solved",
+                    to: "solved",
+                    length: solved.length,
+                  },
+                ].map((text, index) => (
+                  <ListItem
+                    key={text}
+                    disablePadding
+                    sx={{
+                      width: "full",
+                      borderBottom: "1px solid #ccc",
+                    }}
+                  >
+                    <NavLink
+                      onClick={() => handleSubcategoryClick(text.to)}
+                      to={`/support/${text.to}`}
+                      className="w-full"
+                    >
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: 3,
+                            justifyContent: "center",
+                          }}
+                        >
+                          {text.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text.name} />
+                        <div className="badge badge-accent">{text.length}</div>
+                      </ListItemButton>
+                    </NavLink>
+                  </ListItem>
+                ))}
+              {/* <List>
+              <ModaretorChat
+                subCategory={subCategory}
+                refetches={refetch}
+                setEmail={setEmail}
+              />
+            </List> */}
+            </List>
+          )}
+        </List>
+      )}
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Typography>
-          {isAdmin?.isAdmin && selectedList === "/support/chat" ? (
-            <AdminMainChat messages={messages} refetch={refetch} />
-          ) : (
-            <Outlet></Outlet>
-          )}
+          <Outlet></Outlet>
         </Typography>
       </Box>
     </Box>

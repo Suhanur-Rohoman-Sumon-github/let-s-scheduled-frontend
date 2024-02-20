@@ -9,10 +9,15 @@ import { FaSquarePollVertical } from "react-icons/fa6";
 import LiveVisitorChart from "../../componnents/chart/SupportHomeChart/LiveVisitorChart";
 import Feedback from "../../componnents/chart/SupportHomeChart/Feedback";
 import TotalMessage from "../../componnents/chart/SupportHomeChart/TotalMessage";
-import { useMyOpenes, useSolvedes, useUnseens } from "../../utils/CatagoryData";
 import { useEffect } from "react";
 import useAllMessages from "../../hooks/useAllMessages";
 import useAllVistors from "../../hooks/useAllVistors";
+import {
+  useAllTodaysVisitors,
+  useMyOpenes,
+  useSolvedes,
+  useUnseens,
+} from "../../hooks/GettAllTodaysData/GetTodaysData";
 
 const SupportHome = () => {
   const { unSeen, unSeenRefetch } = useUnseens();
@@ -24,8 +29,8 @@ const SupportHome = () => {
     solvedRefetch();
   }, [unSeenRefetch, myOpenRefetch, solvedRefetch]);
   const { allMessage } = useAllMessages();
-  console.log(allMessage.data.length);
   const { allVisitors } = useAllVistors();
+  const { todaysVisitors } = useAllTodaysVisitors();
 
   return (
     <div>
@@ -37,10 +42,7 @@ const SupportHome = () => {
             </h1>
             <p className="text-xl my-4">Today</p>
             <div className="flex items-center gap-4 text-xl my-4">
-              <p>0</p>
-              <p className="flex items-center gap-2 text-green-500">
-                <BsGraphUpArrow /> 0.00%
-              </p>
+              <p>{todaysVisitors.length}</p>
             </div>
             <div className="flex items-center gap-4 text-xl my-4">
               <p>Total visitors</p>
@@ -59,12 +61,12 @@ const SupportHome = () => {
                 <div>
                   <p>Answered</p>
                   <p className="flex items-center gap-2 text-green-500">
-                    {myOpen?.length} <BsGraphUpArrow /> 0.00%
+                    {myOpen?.length}
                   </p>
                   <div className="mt-4">
                     <p>Missed</p>
                     <p className="flex items-center gap-2 text-red-500">
-                      {unSeen?.length} <BsGraphDownArrow /> 0.00%
+                      {unSeen?.length}
                     </p>
                   </div>
                 </div>
@@ -72,7 +74,7 @@ const SupportHome = () => {
                 <div>
                   <p>solved</p>
                   <p className="flex items-center gap-2 text-green-500">
-                    {solved?.length} <BsGraphUpArrow /> 0.00%
+                    {solved?.length}
                   </p>
                 </div>
               </div>
@@ -80,7 +82,7 @@ const SupportHome = () => {
             <div className="flex items-center gap-4 text-xl my-8">
               <p>Total Message</p>
               <p className="flex items-center gap-2 text-green-500">
-                <FaArrowAltCircleUp /> {allMessage.data.length}
+                <FaArrowAltCircleUp /> {allMessage?.data?.length}
               </p>
             </div>
           </div>
@@ -93,21 +95,18 @@ const SupportHome = () => {
 
             <div className="flex items-center gap-4 text-xl my-4 justify-between">
               <p>Positive Sentiment </p>
-              <p className="flex items-center gap-2 text-green-500">
-                0 <BsGraphUpArrow /> 0.00%
-              </p>
             </div>
             <div className="flex items-center gap-4 text-xl my-4 justify-between">
               <p>Negative Sentiment </p>
-              <p className="flex items-center gap-2 text-red-500">
-                0 <BsGraphDownArrow /> 0.00%
-              </p>
             </div>
           </div>
         </div>
         <div className="mt-32 mr-4  ">
           <div className=" grid grid-cols-2 ">
-            <LiveVisitorChart />
+            <LiveVisitorChart
+              messageData={allMessage}
+              allVisitors={allVisitors}
+            />
             <TotalMessage />
           </div>
           <div className=" flex items-center mt-8">

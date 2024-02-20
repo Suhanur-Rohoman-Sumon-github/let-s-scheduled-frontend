@@ -56,7 +56,7 @@ const ChatModalContent = ({ isOpen, setIsOpen }) => {
       setInputMessage("");
     } else {
       const patch = await axios.patch(
-        `http://localhost:3000/api/v1/message/update-message?emails=${
+        `https://lets-sheduleit-backend.vercel.app/api/v1/message/update-message?emails=${
           user ? user?.email : email
         }`,
         {
