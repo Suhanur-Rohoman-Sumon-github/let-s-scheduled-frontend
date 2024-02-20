@@ -51,7 +51,7 @@ const Overview = () => {
   return (
     <>
       <div>
-        <div className="md:grid grid-cols-5 gap-2  mt-0">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2  mt-0">
           <div className=" border shadow-md  p-4 text-2xl bg-[#0066FF] text-white">
             <h1 className="flex items-center gap-2 ">
               <MdSupervisorAccount className="" /> visitors
@@ -131,7 +131,7 @@ const Overview = () => {
           </div>
         </div>
         <div className=" mt-5 ">
-          <div className="grid grid-cols-2">
+          <div className="grid md:grid-cols-2">
             <LiveOverviewChart
               allUser={allUser}
               allEvents={allEvents}
